@@ -1,0 +1,66 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block admin_title %}SEO / Référencement{% endblock %}
+
+{% block admin_content %}
+<div class="row g-4 mb-4">
+  <div class="col-md-6">
+    <div class="page-stat">
+      <div class="stat-label mb-2">Visibilité</div>
+      <div class="stat-number">SEO</div>
+      <div class="text-secondary mt-2">référencement et recherche</div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="page-stat">
+      <div class="stat-label mb-2">Ciblage</div>
+      <div class="stat-number">#1</div>
+      <div class="text-secondary mt-2">mots-clés stratégiques</div>
+    </div>
+  </div>
+</div>
+
+<div class="admin-panel p-4">
+  <div class="mb-4">
+    <h3 class="mb-1 text-gold"><i class="fa-solid fa-chart-line me-2"></i>SEO / Référencement</h3>
+    <p class="text-secondary mb-0">Optimisez la présence numérique et la visibilité de ASFEX en ligne.</p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div class="admin-card admin-form">
+        <form method="post">
+          {% csrf_token %}
+          <div class="row g-3">
+            {% for field in form %}
+            <div class="col-md-6">
+              <label for="{{ field.id_for_label }}" class="form-label fw-bold">{{ field.label }}</label>
+              {{ field }}
+              {% if field.errors %}
+                <div class="text-danger small mt-1">{{ field.errors|join:', ' }}</div>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          <div class="mt-4">
+            <button type="submit" class="btn btn-gold"><i class="fa-solid fa-floppy-disk me-2"></i>Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="admin-card bg-light">
+        <h5 class="fw-bold mb-3 text-dark">Bonnes pratiques</h5>
+        <ul class="list-unstyled mb-0">
+          <li class="mb-2"><i class="fa-solid fa-circle-check text-gold me-2"></i>Meta title clair</li>
+          <li class="mb-2"><i class="fa-solid fa-circle-check text-gold me-2"></i>Description unique</li>
+          <li class="mb-2"><i class="fa-solid fa-circle-check text-gold me-2"></i>URL canonique</li>
+          <li class="mb-2"><i class="fa-solid fa-circle-check text-gold me-2"></i>Mots-clés ciblés</li>
+          <li><i class="fa-solid fa-circle-check text-gold me-2"></i>Contenus structurés</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

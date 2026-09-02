@@ -1,0 +1,89 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block admin_title %}Comptes & rôles{% endblock %}
+
+{% block admin_content %}
+<div class="row g-4 mb-4">
+  <div class="col-md-6">
+    <div class="page-stat">
+      <div class="stat-label mb-2">Utilisateurs</div>
+      <div class="stat-number">{{ users|length }}</div>
+      <div class="text-secondary mt-2">comptes staff actifs</div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="page-stat">
+      <div class="stat-label mb-2">Rôles</div>
+      <div class="stat-number">{{ groups|length }}</div>
+      <div class="text-secondary mt-2">groupes d’administration</div>
+    </div>
+  </div>
+</div>
+
+<div class="admin-panel p-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+      <h3 class="mb-1 text-gold"><i class="fa-solid fa-users-gear me-2"></i>Comptes et rôles</h3>
+      <p class="text-secondary mb-0">Centralisez les accès d’administration ASFEX et gérez les permissions de votre équipe.</p>
+    </div>
+    <a href="/gestion/comptes/nouveau/" class="btn btn-gold"><i class="fa-solid fa-user-plus me-2"></i>Créer un compte</a>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div class="admin-card">
+        <h5 class="fw-bold mb-3">Liste des comptes staff</h5>
+        <div class="table-responsive">
+          <table class="table table-admin align-middle">
+            <thead>
+              <tr>
+                <th>Nom d’utilisateur</th>
+                <th>Rôles</th>
+                <th>Statut</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users %}
+              <tr>
+                <td class="fw-bold">{{ user.username }}</td>
+                <td>
+                  {% for group in user.groups.all %}
+                    <span class="badge bg-dark text-gold me-1">{{ group.name }}</span>
+                  {% empty %}
+                    <span class="text-secondary">Aucun rôle</span>
+                  {% endfor %}
+                </td>
+                <td>
+                  {% if user.is_superuser %}
+                    <span class="badge bg-success-subtle text-success">Superadmin</span>
+                  {% else %}
+                    <span class="badge bg-warning-subtle text-warning">Staff</span>
+                  {% endif %}
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="3" class="text-center text-secondary py-4">Aucun compte staff enregistré.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="admin-card bg-light">
+        <h5 class="fw-bold mb-3">Rôles disponibles</h5>
+        <ul class="list-unstyled mb-0">
+          {% for group in groups %}
+          <li class="mb-2"><i class="fa-solid fa-circle-check text-gold me-2"></i>{{ group.name }}</li>
+          {% empty %}
+          <li class="text-secondary">Aucun rôle disponible.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

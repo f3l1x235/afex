@@ -1,0 +1,36 @@
+from django.urls import path
+
+from . import views
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('a-propos/', views.about, name='about'),
+    path('formations/', views.courses, name='courses'),
+    path('contact/', views.contact, name='contact'),
+    path('actualites/', views.articles, name='articles'),
+    path('gestion/login/', views.custom_admin_login, name='custom_admin_login'),
+    path('gestion/logout/', views.admin_logout, name='admin_logout'),
+    path('gestion/', views.admin_dashboard, name='admin_dashboard'),
+    path('gestion/categories/', views.admin_categories, name='admin_categories'),
+    path('gestion/categories/nouveau/', views.admin_category_new, name='admin_category_new'),
+    path('gestion/categories/<int:pk>/modifier/', views.admin_category_edit, name='admin_category_edit'),
+    path('gestion/categories/<int:pk>/supprimer/', views.admin_category_delete, name='admin_category_delete'),
+    path('gestion/formations/', views.admin_formations, name='admin_formations'),
+    path('gestion/formations/nouveau/', views.admin_formations_new, name='admin_formations_new'),
+    path('gestion/formations/<int:pk>/modifier/', views.admin_formation_edit, name='admin_formation_edit'),
+    path('gestion/formations/<int:pk>/supprimer/', views.admin_formation_delete, name='admin_formation_delete'),
+    path('gestion/actualites/', views.admin_articles, name='admin_articles'),
+    path('gestion/actualites/nouveau/', views.admin_articles_new, name='admin_articles_new'),
+    path('gestion/actualites/<int:pk>/modifier/', views.admin_article_edit, name='admin_article_edit'),
+    path('gestion/actualites/<int:pk>/supprimer/', views.admin_article_delete, name='admin_article_delete'),
+    path('gestion/messages/', views.admin_messages, name='admin_messages'),
+    path('gestion/messages/nouveau/', views.admin_messages_new, name='admin_messages_new'),
+    path('gestion/messages/<int:pk>/modifier/', views.admin_message_edit, name='admin_message_edit'),
+    path('gestion/messages/<int:pk>/supprimer/', views.admin_message_delete, name='admin_message_delete'),
+    path('gestion/profil/', views.user_profile, name='user_profile'),
+    path('gestion/comptes/', views.admin_accounts, name='admin_accounts'),
+    path('gestion/comptes/nouveau/', views.admin_account_new, name='admin_account_new'),
+    path('gestion/seo/', views.admin_seo, name='admin_seo'),
+    path('robots.txt', views.robots_txt, name='robots_txt'),
+    path('sitemap.xml', views.sitemap_xml, name='sitemap_xml'),
+]

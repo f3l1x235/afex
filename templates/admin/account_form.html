@@ -1,0 +1,45 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block admin_title %}Créer un compte admin{% endblock %}
+
+{% block admin_content %}
+<div class="admin-panel p-4">
+  <div class="mb-4">
+    <h3 class="mb-1 text-gold"><i class="fa-solid fa-user-plus me-2"></i>Créer un compte administrateur</h3>
+    <p class="text-secondary mb-0">Ajoutez un nouvel administrateur ASFEX et attribuez-lui un rôle.</p>
+  </div>
+
+  <div class="admin-card admin-form">
+    <form method="post">
+      {% csrf_token %}
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="username" class="form-label fw-bold">Nom d’utilisateur</label>
+          <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label fw-bold">Email</label>
+          <input type="email" class="form-control" id="email" name="email">
+        </div>
+        <div class="col-md-6">
+          <label for="password" class="form-label fw-bold">Mot de passe</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="col-md-6">
+          <label for="role" class="form-label fw-bold">Rôle</label>
+          <select class="form-select" id="role" name="role">
+            {% for group in groups %}
+              <option value="{{ group.name }}">{{ group.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-4 d-flex gap-3 flex-wrap">
+        <button type="submit" class="btn btn-gold"><i class="fa-solid fa-user-plus me-2"></i>Créer le compte</button>
+        <a href="/gestion/comptes/" class="btn btn-outline-dark">Retour</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

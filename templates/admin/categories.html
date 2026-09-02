@@ -1,0 +1,60 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block admin_title %}Gestion des catégories{% endblock %}
+
+{% block admin_content %}
+<div class="row g-4 mb-4">
+  <div class="col-md-6">
+    <div class="page-stat">
+      <div class="stat-label mb-2">Total</div>
+      <div class="stat-number">{{ categories|length }}</div>
+      <div class="text-secondary mt-2">catégories enregistrées</div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="page-stat">
+      <div class="stat-label mb-2">Action</div>
+      <div class="stat-number"><i class="fa-solid fa-tags"></i></div>
+      <div class="text-secondary mt-2">créer une catégorie</div>
+    </div>
+  </div>
+</div>
+
+<div class="admin-panel p-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+      <h3 class="mb-1 text-gold"><i class="fa-solid fa-tags me-2"></i>Catégories</h3>
+      <p class="text-secondary mb-0">Organisez vos formations par catégorie métier ou thématique.</p>
+    </div>
+    <a href="/gestion/categories/nouveau/" class="btn btn-gold"><i class="fa-solid fa-plus me-2"></i>Ajouter une catégorie</a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-admin align-middle">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Formations</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for category in categories %}
+        <tr>
+          <td class="fw-bold">{{ category.name }}</td>
+          <td>{{ category.formations.count }}</td>
+          <td class="text-end">
+            <a href="/gestion/categories/{{ category.pk }}/modifier/" class="btn btn-sm btn-outline-dark me-2"><i class="fa-solid fa-pen"></i></a>
+            <form method="post" action="/gestion/categories/{{ category.pk }}/supprimer/" class="d-inline">{% csrf_token %}<button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer cette catégorie ?')"><i class="fa-solid fa-trash"></i></button></form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3" class="text-center text-secondary py-4">Aucune catégorie créée pour le moment.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

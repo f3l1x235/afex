@@ -1,0 +1,37 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block admin_title %}{{ form_title }}{% endblock %}
+
+{% block admin_content %}
+<div class="admin-panel p-4">
+  <div class="mb-4">
+    <h3 class="mb-1 text-gold"><i class="fa-solid fa-pen-to-square me-2"></i>{{ form_title }}</h3>
+    <p class="text-secondary mb-0">Complétez les informations ci-dessous pour enregistrer un élément.</p>
+  </div>
+
+  <div class="admin-card admin-form">
+    <form method="post">
+      {% csrf_token %}
+      <div class="row g-3">
+        {% for field in form %}
+        <div class="col-md-6">
+          <label for="{{ field.id_for_label }}" class="form-label fw-bold">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}
+            <small class="text-secondary d-block mt-1">{{ field.help_text }}</small>
+          {% endif %}
+          {% if field.errors %}
+            <div class="text-danger small mt-1">{{ field.errors|join:', ' }}</div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="mt-4 d-flex gap-3 flex-wrap">
+        <button type="submit" class="btn btn-gold"><i class="fa-solid fa-floppy-disk me-2"></i>Enregistrer</button>
+        <a href="/gestion/" class="btn btn-outline-dark">Retour</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

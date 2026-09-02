@@ -1,0 +1,312 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Tableau de bord ASFEX{% endblock %}
+{% block meta_description %}Espace d'administration ASFEX Formation Tchad pour la gestion du site et des contenus.{% endblock %}
+{% block meta_keywords %}admin ASFEX, gestion site web, tableau de bord, ASFEX Formation Tchad{% endblock %}
+
+{% block content %}
+<style>
+  .admin-shell {
+    background: linear-gradient(180deg, #f5f1e7 0%, #f2f2f2 100%);
+    min-height: 100vh;
+    padding: 40px 0;
+  }
+  .admin-layout {
+    display: flex;
+    min-height: 820px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+    border: 1px solid rgba(13,13,13,0.08);
+    background: #ffffff;
+  }
+  .admin-sidebar {
+    width: 260px;
+    background: linear-gradient(180deg, #111111 0%, #1b1b1b 100%);
+    color: white;
+    padding: 28px 18px;
+  }
+  .admin-brand {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #d4af37;
+    letter-spacing: 0.04em;
+    margin-bottom: 28px;
+    display: inline-block;
+  }
+  .admin-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .admin-menu li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    transition: 0.2s ease;
+    font-weight: 600;
+  }
+  .admin-menu li a:hover,
+  .admin-menu li a.active {
+    background: rgba(212,175,55,0.12);
+    color: #fff;
+    border: 1px solid rgba(212,175,55,0.2);
+  }
+  .admin-main {
+    flex: 1;
+    background: #f9f8f5;
+    padding: 24px;
+  }
+  .admin-topbar {
+    background: #ffffff;
+    border: 1px solid rgba(13,13,13,0.06);
+    border-radius: 18px;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .admin-panel {
+    background: rgba(255,255,255,0.96);
+    border: 1px solid rgba(13,13,13,0.07);
+    border-radius: 20px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.04);
+  }
+  .metric-card {
+    background: linear-gradient(135deg, #ffffff 0%, #fdfaf1 100%);
+    border: 1px solid rgba(13,13,13,0.06);
+    border-radius: 18px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.04);
+    height: 100%;
+  }
+  .metric-icon {
+    width: 52px;
+    height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(212,175,55,0.12);
+    border-radius: 14px;
+    color: #b98a00;
+    font-size: 1.2rem;
+  }
+  .admin-list li {
+    background: #faf9f6;
+    border: 1px solid rgba(13,13,13,0.05);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .admin-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(13,13,13,0.02));
+    border: 1px solid rgba(212,175,55,0.18);
+  }
+  @media (max-width: 991.98px) {
+    .admin-layout {
+      display: block;
+    }
+    .admin-sidebar {
+      width: 100%;
+    }
+    .admin-main {
+      padding: 18px;
+    }
+  }
+</style>
+
+<section class="admin-shell">
+  <div class="container-fluid px-3 px-lg-4">
+    <div class="admin-layout">
+      <aside class="admin-sidebar">
+        <div class="admin-brand">ASFEX</div>
+        <ul class="admin-menu">
+          <li><a href="#" class="active"><i class="fa-solid fa-gauge-high"></i> Tableau de bord</a></li>
+          <li><a href="/gestion/categories/"><i class="fa-solid fa-tags"></i> Catégories</a></li>
+          <li><a href="/gestion/formations/"><i class="fa-solid fa-graduation-cap"></i> Formations</a></li>
+          <li><a href="/gestion/actualites/"><i class="fa-solid fa-newspaper"></i> Actualités</a></li>
+          <li><a href="/gestion/messages/"><i class="fa-solid fa-envelope"></i> Messages</a></li>
+          <li><a href="/gestion/seo/"><i class="fa-solid fa-chart-line"></i> SEO</a></li>
+          <li><a href="/" target="_blank" rel="noopener"><i class="fa-solid fa-globe"></i> Voir le site</a></li>
+        </ul>
+
+        <hr class="my-3 border-light">
+        <div class="text-uppercase small text-secondary mb-2">Administration</div>
+        <ul class="admin-menu">
+            <li><a href="/gestion/profil/" {% if '/gestion/profil/' in request.path %}class="active"{% endif %}><i class="fa-solid fa-user"></i> Mon profil</a></li>
+            {% if user.is_staff %}
+            <li><a href="/gestion/comptes/" {% if '/gestion/comptes/' in request.path %}class="active"{% endif %}><i class="fa-solid fa-user-shield"></i> Gestion des comptes</a></li>
+            {% endif %}
+            <li><a href="/gestion/logout/"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a></li>
+        </ul>
+      </aside>
+
+      <main class="admin-main">
+        <div class="admin-topbar">
+            
+          <div>
+            <div class="text-uppercase small text-secondary mb-1">Gestion</div>
+            <h2 class="fw-bold mb-0">Tableau de bord ASFEX</h2>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-light text-dark border px-3 py-2">
+              <i class="fa-solid fa-user-shield me-2 text-gold"></i>{{ request.user.get_full_name|default:request.user.username }}
+            </span>
+            <a href="/gestion/logout/" class="btn btn-dark-gold"><i class="fa-solid fa-right-from-bracket me-2"></i>Déconnexion</a>
+          </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+          <div class="col-md-6 col-xl-3">
+            <div class="metric-card p-4">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="metric-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                <span class="badge bg-dark text-gold px-2 py-1">Formations</span>
+              </div>
+              <div class="display-5 fw-bold text-gold mb-1">{{ courses|length }}</div>
+              <div class="text-secondary">programmes actifs</div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-xl-3">
+            <div class="metric-card p-4">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="metric-icon"><i class="fa-solid fa-newspaper"></i></div>
+                <span class="badge bg-dark text-gold px-2 py-1">Actualités</span>
+              </div>
+              <div class="display-5 fw-bold text-gold mb-1">{{ articles|length }}</div>
+              <div class="text-secondary">articles publiés</div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-xl-3">
+            <div class="metric-card p-4">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="metric-icon"><i class="fa-solid fa-envelope"></i></div>
+                <span class="badge bg-dark text-gold px-2 py-1">Messages</span>
+              </div>
+              <div class="display-5 fw-bold text-gold mb-1">{{ messages|length }}</div>
+              <div class="text-secondary">demandes reçues</div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-xl-3">
+            <div class="metric-card p-4">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="metric-icon"><i class="fa-solid fa-bolt"></i></div>
+                <span class="badge bg-dark text-gold px-2 py-1">Impact</span>
+              </div>
+              <div class="display-5 fw-bold text-gold mb-1">100%</div>
+              <div class="text-secondary">orientation résultats</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+          <div class="col-lg-3 col-md-6">
+            <div class="admin-panel p-4 h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-secondary small text-uppercase">Actions rapides</span>
+                <i class="fa-solid fa-bolt text-gold"></i>
+              </div>
+              <a href="/gestion/formations/nouveau/" class="admin-action text-decoration-none text-dark mb-3"><span><i class="fa-solid fa-plus me-2 text-gold"></i>Nouvelle formation</span><i class="fa-solid fa-arrow-right"></i></a>
+              <a href="/gestion/actualites/nouveau/" class="admin-action text-decoration-none text-dark mb-3"><span><i class="fa-solid fa-pen-nib me-2 text-gold"></i>Nouvel article</span><i class="fa-solid fa-arrow-right"></i></a>
+              <a href="/gestion/comptes/" class="admin-action text-decoration-none text-dark mb-3"><span><i class="fa-solid fa-users-gear me-2 text-gold"></i>Comptes & rôles</span><i class="fa-solid fa-arrow-right"></i></a>
+              <a href="/gestion/seo/" class="admin-action text-decoration-none text-dark"><span><i class="fa-solid fa-chart-line me-2 text-gold"></i>SEO</span><i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-9">
+            <div class="admin-panel p-4 h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="text-gold mb-0"><i class="fa-solid fa-chart-column me-2"></i>Performance de la plateforme</h3>
+                <span class="badge bg-dark text-gold">Live</span>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <div class="mini-stat h-100">
+                    <div class="small text-secondary text-uppercase mb-2">Visibilité</div>
+                    <div class="stat-number">92%</div>
+                    <div class="text-secondary small">SEO et référencement</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="mini-stat h-100">
+                    <div class="small text-secondary text-uppercase mb-2">Engagement</div>
+                    <div class="stat-number">87%</div>
+                    <div class="text-secondary small">contact et demandes</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="mini-stat h-100">
+                    <div class="small text-secondary text-uppercase mb-2">Croissance</div>
+                    <div class="stat-number">+24%</div>
+                    <div class="text-secondary small">acquisition de leads</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="admin-panel h-100 p-4">
+              <h3 class="text-gold mb-3"><i class="fa-solid fa-book me-2"></i>Formations récentes</h3>
+              <ul class="list-unstyled admin-list mb-0">
+                {% for course in courses %}
+                  <li><i class="fa-solid fa-circle-check text-gold me-2"></i>{{ course.name }}</li>
+                {% empty %}
+                  <li>Aucune formation enregistrée.</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="admin-panel h-100 p-4">
+              <h3 class="text-gold mb-3"><i class="fa-solid fa-pen-nib me-2"></i>Actualités récentes</h3>
+              <ul class="list-unstyled admin-list mb-0">
+                {% for article in articles %}
+                  <li><i class="fa-solid fa-circle-check text-gold me-2"></i>{{ article.title }}</li>
+                {% empty %}
+                  <li>Aucune actualité enregistrée.</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="admin-panel h-100 p-4">
+              <h3 class="text-gold mb-3"><i class="fa-solid fa-envelope me-2"></i>Messages reçus</h3>
+              <ul class="list-unstyled admin-list mb-0">
+                {% for message in messages %}
+                  <li>
+                    <div class="fw-bold text-dark">{{ message.name }}</div>
+                    <small class="text-secondary">{{ message.subject|default:'Demande générale' }}</small>
+                  </li>
+                {% empty %}
+                  <li>Aucun message reçu.</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</section>
+{% endblock %}

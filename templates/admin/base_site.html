@@ -1,0 +1,236 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}ASFEX Administration | Gestion du site{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    :root {
+        --gold: #d4af37;
+        --gold-deep: #b98a00;
+        --gold-soft: #f9f2d8;
+        --black: #0d0d0d;
+        --black-soft: #1a1a1a;
+        --cream: #f5f1e7;
+        --panel: #ffffff;
+        --white: #ffffff;
+        --muted: #555555;
+        --border: rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+        background: linear-gradient(180deg, var(--cream) 0%, #f2f2f2 100%);
+        color: var(--black);
+        font-family: Arial, sans-serif;
+    }
+
+    #header {
+        background: linear-gradient(135deg, var(--black) 0%, var(--black-soft) 100%);
+        border-bottom: 3px solid var(--gold);
+        color: var(--white);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+    }
+
+    #branding h1 {
+        color: var(--gold);
+        font-weight: 800;
+        letter-spacing: 0.04em;
+    }
+
+    #site-name {
+        color: var(--white) !important;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    #user-tools {
+        color: var(--white);
+    }
+
+    #user-tools a {
+        color: var(--gold) !important;
+        font-weight: 700;
+    }
+
+    .dashboard #content {
+        background: transparent;
+    }
+
+    #content-main {
+        padding-top: 16px;
+    }
+
+    #user-tools a,
+    #nav-sidebar a,
+    .module-caption,
+    .model td,
+    .model th,
+    .paginator a,
+    .paginator span,
+    .submit-row input,
+    .button,
+    .button.default {
+        font-family: Arial, sans-serif;
+    }
+
+    #nav-sidebar {
+        background: var(--panel);
+        border-right: 1px solid var(--border);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.04);
+    }
+
+    .module {
+        background: linear-gradient(135deg, var(--panel) 0%, #fffdf7 100%);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04);
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+        overflow: hidden;
+    }
+
+    .module h2,
+    .module caption,
+    .module caption a {
+        background: linear-gradient(135deg, #111111 0%, #1b1b1b 100%);
+        color: var(--gold) !important;
+        border-radius: 12px 12px 0 0;
+        padding: 0.8rem 0.9rem;
+        font-weight: 700;
+    }
+
+    .app-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+    }
+
+    .app-list .module {
+        min-height: 220px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .app-list .module a {
+        color: var(--black);
+        font-weight: 700;
+    }
+
+    .module th,
+    .module td {
+        border-top: 1px solid var(--border);
+        padding: 0.7rem 0.6rem;
+    }
+
+    .button,
+    .submit-row input,
+    input[type="submit"],
+    input[type="button"] {
+        background: var(--gold);
+        color: var(--black);
+        border: none;
+        border-radius: 10px;
+        font-weight: 700;
+        padding: 0.6rem 1rem;
+        box-shadow: 0 8px 18px rgba(212, 175, 55, 0.18);
+    }
+
+    .button.default {
+        background: var(--black);
+        color: var(--gold);
+        border: 1px solid var(--gold);
+    }
+
+    .button:hover,
+    .submit-row input:hover,
+    input[type="submit"]:hover {
+        filter: brightness(0.96);
+    }
+
+    .change-list table thead th {
+        background: var(--gold-soft);
+        color: var(--black);
+        border-bottom: 1px solid var(--border);
+        font-weight: 700;
+    }
+
+    .change-list tbody tr:hover {
+        background: #fffaf0;
+    }
+
+    .object-tools a {
+        background: #fff;
+        color: var(--black);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 0.45rem 0.7rem;
+        font-weight: 600;
+    }
+
+    .errornote,
+    .help,
+    .helptext {
+        color: var(--muted);
+    }
+
+    .calendar td,
+    .calendar th,
+    .clockbox h2 {
+        border-radius: 8px;
+    }
+
+    #content {
+        padding: 30px 28px 40px;
+    }
+
+    .admin-login {
+        background: linear-gradient(180deg, #f5f1e7 0%, #f3f3f1 100%);
+    }
+
+    .login {
+        background: linear-gradient(135deg, #fffdf7 0%, #ffffff 100%);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 22px;
+        box-shadow: 0 18px 30px rgba(0, 0, 0, 0.08);
+        padding: 2rem;
+    }
+
+    .login .submit-row {
+        padding-top: 1rem;
+    }
+
+    .login #header {
+        border-radius: 22px 22px 0 0;
+        background: linear-gradient(135deg, var(--black) 0%, var(--black-soft) 100%);
+    }
+
+    .login #content {
+        padding: 30px 20px 40px;
+    }
+
+    .login .form-row input,
+    .login .form-row textarea,
+    .login .form-row select {
+        border-radius: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        padding: 0.8rem 0.9rem;
+    }
+
+    .login .form-row input:focus {
+        border-color: rgba(212, 175, 55, 0.8);
+        box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.15);
+    }
+
+    .login .submit-row input {
+        width: 100%;
+        font-size: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><span style="color: var(--gold); font-weight: 800;">ASFEX</span> Administration</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

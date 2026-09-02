@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact ASFEX Formation Tchad{% endblock %}
+{% block meta_description %}Contactez ASFEX Formation Tchad pour une demande de formation, conseil, accompagnement ou partenariat.{% endblock %}
+{% block meta_keywords %}contact ASFEX, formation Tchad, partenariat, demande de devis, conseil{% endblock %}
+
+{% block content %}
+<section class="section-pad bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="badge bg-dark text-gold rounded-pill px-3 py-2 mb-3">
+        <i class="fa-solid fa-headset me-2"></i>Contact
+      </span>
+      <h1 class="fw-bold display-5">Contactez ASFEX</h1>
+      <p class="lead text-secondary">Nous sommes à votre écoute pour les formations, conseils, partenariats et accompagnements professionnels.</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <div class="col-md-4">
+        <div class="card h-100 p-4 text-center">
+          <div class="feature-icon mb-3"><i class="fa-solid fa-location-dot"></i></div>
+          <h3 class="h5 text-gold">Adresse</h3>
+          <p class="mb-0 text-secondary">N’Djamena, Tchad</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 p-4 text-center">
+          <div class="feature-icon mb-3"><i class="fa-solid fa-phone"></i></div>
+          <h3 class="h5 text-gold">Téléphone</h3>
+          <p class="mb-0 text-secondary">+235 60 88 71 18</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 p-4 text-center">
+          <div class="feature-icon mb-3"><i class="fa-solid fa-envelope"></i></div>
+          <h3 class="h5 text-gold">Email</h3>
+          <p class="mb-0 text-secondary">bonjour@asfex.td</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-4 p-lg-5 shadow-sm border-0">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+          <h2 class="fw-bold mb-3 text-gold">Parlons de votre projet</h2>
+          <p class="text-secondary mb-0">Que vous soyez une organisation, une entreprise ou une personne souhaitant développer ses compétences, ASFEX peut vous accompagner avec des solutions sur mesure, adaptées à vos objectifs et à votre contexte.</p>
+        </div>
+        <div class="col-lg-5 text-lg-end">
+          <div class="d-flex flex-wrap gap-3 justify-content-lg-end">
+            <a href="https://wa.me/23560887118" class="btn btn-outline-success btn-lg" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp me-2"></i>WhatsApp</a>
+            <a href="https://www.facebook.com/asfexformationtchad" class="btn btn-outline-primary btn-lg" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f me-2"></i>Facebook</a>
+            <a href="https://www.linkedin.com/company/asfexformationtchad/posts/" class="btn btn-outline-primary btn-lg" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in me-2"></i>LinkedIn</a>
+          </div>
+        </div>
+      </div>
+
+      {% if messages %}
+        <div class="mt-4">
+          {% for message in messages %}
+            <div class="alert alert-success mb-0" role="alert">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <form method="post" class="row g-3 mt-2">
+        {% csrf_token %}
+        <div class="col-md-6">
+          <label for="name" class="form-label">Nom complet</label>
+          <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="col-md-6">
+          <label for="phone" class="form-label">Téléphone</label>
+          <input type="text" class="form-control" id="phone" name="phone">
+        </div>
+        <div class="col-md-6">
+          <label for="subject" class="form-label">Objet</label>
+          <input type="text" class="form-control" id="subject" name="subject" placeholder="Demande de formation / partenariat / conseil">
+        </div>
+        <div class="col-12">
+          <label for="message" class="form-label">Message</label>
+          <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+        </div>
+        <div class="col-12 text-end">
+          <button type="submit" class="btn btn-gold btn-lg">Envoyer le message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
