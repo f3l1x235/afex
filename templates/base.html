@@ -5,13 +5,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{{ page_title|default:site_seo.homepage_title|default:'ASFEX' }}{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}{{ meta_description|default:site_seo.meta_description|default:'ASFEX - centre de formation et expertise au Tchad pour des formations professionnelles et un accompagnement sur mesure.' }}{% endblock %}" />
-    <meta name="keywords" content="{% block meta_keywords %}{{ meta_keywords|default:site_seo.meta_keywords|default:'ASFEX, formations professionnelles, certification, expertise, Tchad, N’Djamena' }}{% endblock %}" />
+    <meta name="description" content="{% block meta_description %}{{ meta_description|default:site_seo.meta_description|default:site_seo.service_description|default:'ASFEX - centre de formation et expertise au Tchad pour des formations professionnelles et un accompagnement sur mesure.' }}{% endblock %}" />
+    <meta name="keywords" content="{% block meta_keywords %}{{ meta_keywords|default:site_seo.meta_keywords|default:site_seo.service_name|default:'ASFEX, formations professionnelles, certification, expertise, Tchad, N’Djamena' }}{% endblock %}" />
     <meta name="robots" content="index, follow" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="{% block og_title %}{{ page_title|default:site_seo.homepage_title|default:'ASFEX - Centre de Formation & Expertise' }}{% endblock %}" />
-    <meta property="og:description" content="{% block og_description %}{{ meta_description|default:site_seo.meta_description|default:'ASFEX - centre de formation et expertise au Tchad pour des formations professionnelles et un accompagnement sur mesure.' }}{% endblock %}" />
+    <meta property="og:description" content="{% block og_description %}{{ meta_description|default:site_seo.meta_description|default:site_seo.service_description|default:'ASFEX - centre de formation et expertise au Tchad pour des formations professionnelles et un accompagnement sur mesure.' }}{% endblock %}" />
     <meta property="og:url" content="{{ site_seo.canonical_url|default:'https://www.asfex-formation-tchad.com/' }}" />
+    <meta property="og:site_name" content="{{ site_seo.site_name|default:'ASFEX Formation Tchad' }}" />
+    <meta property="og:service" content="{{ site_seo.service_name|default:'Formation professionnelle ASFEX' }}" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}" />
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />

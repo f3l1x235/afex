@@ -52,6 +52,8 @@ class SEOSettings(models.Model):
     homepage_title = models.CharField(max_length=160, default='ASFEX Formation Tchad | Centre de Formation & Expertise')
     meta_description = models.TextField(default='Centre de formation et expertise au Tchad pour des formations professionnelles, certification et accompagnement sur mesure.')
     meta_keywords = models.TextField(default='ASFEX Formation Tchad, formations professionnelles, certification, expertise, Tchad, N’Djamena')
+    service_name = models.CharField(max_length=160, default='Formation professionnelle & conseil ASFEX')
+    service_description = models.TextField(default='Formations professionnelles, conseil et accompagnement sur mesure pour entreprises, ONG et particuliers au Tchad.')
     canonical_url = models.URLField(default='https://www.asfex-formation-tchad.com/')
     focus_keyword = models.CharField(max_length=120, blank=True, default='formation professionnelle Tchad')
     updated_at = models.DateTimeField(auto_now=True)
