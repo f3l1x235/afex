@@ -44,6 +44,15 @@
         color: var(--gold);
         font-weight: 700;
       }
+      .brand-logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(212,175,55,0.4);
+        border-radius: 14px;
+        padding: 4px 8px;
+      }
       .btn-gold {
         background: var(--gold);
         color: var(--black);
@@ -116,8 +125,8 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
       <div class="container">
-        <a class="navbar-brand d-flex align-items-center gap-2" href="/" aria-label="ASFEX Formation Tchad">
-          <img src="{% static 'images/asfex_logo.jpeg' %}" alt="ASFEX Formation Tchad" style="height: 42px; width: auto; border-radius: 10px; background: white; padding: 2px;" />
+        <a class="navbar-brand brand-logo d-flex align-items-center gap-2" href="/" aria-label="ASFEX Formation Tchad">
+          <img src="{% static 'images/asfex_logo.jpeg' %}" alt="ASFEX Formation Tchad" style="height: 54px; width: auto; border-radius: 12px; background: white; padding: 3px;" />
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
