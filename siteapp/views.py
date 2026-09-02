@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from .forms import ArticleForm, CategoryForm, ContactMessageForm, CourseForm, SEOForm
-from .models import Article, Category, ContactMessage, Course
+from .models import Article, Category, ContactMessage, Course, SEOSettings
 
 
 def custom_admin_login(request):
@@ -375,14 +375,17 @@ def admin_message_delete(request, pk):
 @login_required(login_url='/gestion/login/')
 @staff_member_required
 def admin_seo(request):
-    initial = {
-        'site_name': 'ASFEX Formation Tchad',
-        'homepage_title': 'ASFEX Formation Tchad | Centre de Formation & Expertise',
-        'meta_description': 'Centre de formation et expertise au Tchad pour des formations professionnelles, certification et accompagnement sur mesure.',
-        'canonical_url': 'https://www.asfex-formation-tchad.com/',
-        'focus_keyword': 'formation professionnelle Tchad',
-    }
-    form = SEOForm(initial=initial)
+    seo_settings, created = SEOSettings.objects.get_or_create(pk=1)
+
+    if request.method == 'POST':
+        form = SEOForm(request.POST, instance=seo_settings)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Les paramètres SEO ont été enregistrés avec succès.')
+            return redirect('admin_seo')
+    else:
+        form = SEOForm(instance=seo_settings)
+
     context = {
         'page_title': 'SEO / Référencement',
         'meta_description': 'Gérez les paramètres SEO et la visibilité du site ASFEX.',

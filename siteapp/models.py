@@ -45,3 +45,20 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f'{self.name} - {self.subject or "Message"}'
+
+
+class SEOSettings(models.Model):
+    site_name = models.CharField(max_length=120, default='ASFEX Formation Tchad')
+    homepage_title = models.CharField(max_length=160, default='ASFEX Formation Tchad | Centre de Formation & Expertise')
+    meta_description = models.TextField(default='Centre de formation et expertise au Tchad pour des formations professionnelles, certification et accompagnement sur mesure.')
+    meta_keywords = models.TextField(default='ASFEX Formation Tchad, formations professionnelles, certification, expertise, Tchad, N’Djamena')
+    canonical_url = models.URLField(default='https://www.asfex-formation-tchad.com/')
+    focus_keyword = models.CharField(max_length=120, blank=True, default='formation professionnelle Tchad')
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Paramètres SEO'
+        verbose_name_plural = 'Paramètres SEO'
+
+    def __str__(self):
+        return self.site_name
