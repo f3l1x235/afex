@@ -21,7 +21,7 @@ if not SECRET_KEY:
     # Use a temporary key for development only
     SECRET_KEY = 'dev-only-insecure-key-change-in-production-12345'
 
-allowed_hosts = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,example.com,www.example.com')
+allowed_hosts = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,example.com,www.example.com', 'f3l1x235.pythonanywhere.com/')
 ALLOWED_HOSTS = [host.strip() for host in allowed_hosts.split(',') if host.strip()]
 
 CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in os.getenv('CSRF_TRUSTED_ORIGINS', 'https://example.com,https://www.example.com,http://localhost:8000,http://127.0.0.1:8000').split(',') if origin.strip()]
