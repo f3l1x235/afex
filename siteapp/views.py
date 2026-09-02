@@ -38,9 +38,9 @@ def home(request):
     courses = Course.objects.order_by('created_at')[:3]
     latest_articles = Article.objects.order_by('-created_at')[:3]
     context = {
-        'page_title': 'ASFEX Formation Tchad | Centre de Formation & Expertise',
-        'meta_description': 'ASFEX Formation Tchad propose des formations professionnelles, certification, conseil et accompagnement en Afrique, avec une approche pratique et orientée emploi.',
-        'meta_keywords': 'ASFEX Formation Tchad, centre de formation au Tchad, formations professionnelles, certification, expertise, conseil, N’Djamena',
+        'page_title': 'ASFEX - Centre de Formation & Expertise',
+        'meta_description': 'ASFEX - centre de formation et expertise au Tchad pour des formations professionnelles et un accompagnement sur mesure.',
+        'meta_keywords': 'ASFEX, formations professionnelles, certification, expertise, Tchad, N’Djamena',
         'courses': courses,
         'articles': latest_articles,
     }
