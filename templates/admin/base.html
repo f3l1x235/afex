@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -107,7 +108,9 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
       <div class="container">
-        <a class="navbar-brand brand-gold" href="/">ASFEX</a>
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/" aria-label="ASFEX Formation Tchad">
+          <img src="{% static 'images/asfex_logo.jpeg' %}" alt="ASFEX Formation Tchad" style="height: 42px; width: auto; border-radius: 10px; background: white; padding: 2px;" />
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
