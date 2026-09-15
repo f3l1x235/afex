@@ -7,10 +7,22 @@ from .models import Article, Category, ContactMessage, Course, CourseRegistratio
 
 class SeoAndAdminAccessTests(TestCase):
     def test_public_pages_have_seo_metadata(self):
-        for path in ['/', '/a-propos/', '/formations/', '/contact/', '/actualites/']:
+        for path in ['/', '/a-propos/', '/expertise/', '/formations/', '/contact/', '/actualites/']:
             response = self.client.get(path)
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, 'meta name="description"')
+
+    def test_expertise_page_lists_services_and_links(self):
+        response = self.client.get('/expertise/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Analyse de données')
+        self.assertContains(response, 'Tableaux de bord & KPI')
+        self.assertContains(response, 'KoboToolbox / collecte de données')
+        self.assertContains(response, 'Digitalisation des processus')
+        self.assertContains(response, 'Installation et configuration de logiciels')
+        self.assertContains(response, 'Nous vous aidons à résoudre vos problématiques professionnelles')
+        self.assertContains(response, 'href="/demande-devis/"')
+        self.assertContains(response, 'href="/formation-sur-mesure/"')
 
     def test_contact_form_submits_and_saves_message(self):
         response = self.client.post('/contact/', {

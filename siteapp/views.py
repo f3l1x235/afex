@@ -64,6 +64,14 @@ def about(request):
     return render(request, 'about.html', context)
 
 
+def expertise(request):
+    return render(request, 'expertise.html', {
+        'page_title': 'Expertise & Services | ASFEX Formation Tchad',
+        'meta_description': 'Découvrez les services ASFEX en data, analyse, digitalisation, automatisation et assistance informatique au Tchad.',
+        'meta_keywords': 'expertise data Tchad, analyse de données, Power BI, Excel, KoboToolbox, digitalisation, assistance informatique',
+    })
+
+
 def courses(request):
     courses = Course.objects.prefetch_related('levels').order_by('name')
     context = {
@@ -613,6 +621,11 @@ def sitemap_xml(request):
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+    <url>
+        <loc>https://www.asfex-formation-tchad.com/expertise/</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
   <url>
     <loc>https://www.asfex-formation-tchad.com/formations/</loc>
     <changefreq>weekly</changefreq>

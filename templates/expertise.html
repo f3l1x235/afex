@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Expertise & Services | ASFEX Formation Tchad{% endblock %}
+{% block meta_description %}Découvrez les services ASFEX en data, analyse, digitalisation, automatisation et assistance informatique au Tchad.{% endblock %}
+{% block meta_keywords %}expertise data Tchad, analyse de données, Power BI, Excel, KoboToolbox, digitalisation, assistance informatique{% endblock %}
+
+{% block content %}
+<section class="section-pad bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="badge bg-dark text-gold rounded-pill px-3 py-2 mb-3">
+        <i class="fa-solid fa-chart-pie me-2"></i>Expertise & Services
+      </span>
+      <h1 class="fw-bold display-5 mb-3">Des outils et une expertise au service de vos décisions.</h1>
+      <p class="lead text-secondary mx-auto" style="max-width: 820px;">Nous vous aidons à résoudre vos problématiques professionnelles avec la donnée, les outils numériques et nos expertises.</p>
+      <div class="d-flex justify-content-center flex-wrap gap-3 mt-4">
+        <a href="{% url 'quote_request' %}" class="btn btn-gold btn-lg"><i class="fa-solid fa-file-invoice-dollar me-2"></i>Demander un devis</a>
+        <a href="{% url 'custom_training' %}" class="btn btn-dark-gold btn-lg"><i class="fa-solid fa-puzzle-piece me-2"></i>Solution sur mesure</a>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="card h-100 p-4 p-lg-5">
+          <div class="feature-icon mb-3"><i class="fa-solid fa-chart-line"></i></div>
+          <h2 class="h3 fw-bold text-gold">Data & analyse</h2>
+          <p class="text-secondary">Transformez vos données en informations claires et directement exploitables.</p>
+          <ul class="list-unstyled mb-0">
+            <li class="mb-3"><i class="fa-solid fa-check text-gold me-2"></i>Analyse de données</li>
+            <li class="mb-3"><i class="fa-solid fa-check text-gold me-2"></i>Tableaux de bord & KPI</li>
+            <li class="mb-3"><i class="fa-solid fa-check text-gold me-2"></i>Excel & automatisation</li>
+            <li class="mb-3"><i class="fa-solid fa-check text-gold me-2"></i>Power BI</li>
+            <li><i class="fa-solid fa-check text-gold me-2"></i>KoboToolbox / collecte de données</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card h-100 p-4 p-lg-5">
+          <div class="feature-icon mb-3"><i class="fa-solid fa-gears"></i></div>
+          <h2 class="h3 fw-bold text-gold">Conseil & accompagnement</h2>
+          <p class="text-secondary">Structurez vos méthodes de travail avec des solutions adaptées à vos objectifs.</p>
+          <ul class="list-unstyled mb-0">
+            <li class="mb-3"><i class="fa-solid fa-check text-gold me-2"></i>Conseil & accompagnement</li>
+            <li class="mb-3"><i class="fa-solid fa-check text-gold me-2"></i>Solutions sur mesure</li>
+            <li class="mb-3"><i class="fa-solid fa-check text-gold me-2"></i>Digitalisation des processus</li>
+            <li class="mb-3"><i class="fa-solid fa-check text-gold me-2"></i>Automatisation des rapports</li>
+            <li><i class="fa-solid fa-check text-gold me-2"></i>Mise en place d’outils de suivi et de reporting</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card h-100 p-4 p-lg-5">
+          <div class="feature-icon mb-3"><i class="fa-solid fa-laptop-code"></i></div>
+          <h2 class="h3 fw-bold text-gold">Services informatiques</h2>
+          <p class="text-secondary">Gagnez en autonomie et en efficacité grâce à un environnement numérique fiable.</p>
+          <ul class="list-unstyled mb-0">
+            <li class="mb-3"><i class="fa-solid fa-check text-gold me-2"></i>Installation et configuration de logiciels</li>
+            <li class="mb-3"><i class="fa-solid fa-check text-gold me-2"></i>Assistance informatique</li>
+            <li><i class="fa-solid fa-check text-gold me-2"></i>Solutions bureautiques</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-5 p-4 p-lg-5 text-center">
+      <h2 class="h3 fw-bold mb-3">Un besoin concret ? Parlons-en.</h2>
+      <p class="text-secondary mb-4">Décrivez-nous votre contexte et nous vous proposerons une réponse adaptée.</p>
+      <a href="{% url 'contact' %}" class="btn btn-outline-dark btn-lg"><i class="fa-solid fa-envelope me-2"></i>Nous contacter</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
