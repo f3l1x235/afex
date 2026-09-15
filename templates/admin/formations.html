@@ -35,8 +35,11 @@
         <tr>
           <th>Nom</th>
           <th>Catégorie</th>
+          <th>Date</th>
           <th>Durée</th>
-          <th>Résumé</th>
+          <th>Modalité</th>
+          <th>Statut</th>
+          <th>Tarif</th>
           <th class="text-end">Actions</th>
         </tr>
       </thead>
@@ -45,9 +48,11 @@
         <tr>
           <td class="fw-bold">{{ course.name }}</td>
           <td>{{ course.category }}</td>
+          <td>{% if course.start_date %}{{ course.start_date|date:'d/m/Y' }}{% if course.end_date %} - {{ course.end_date|date:'d/m/Y' }}{% endif %}{% else %}À définir{% endif %}</td>
           <td>{{ course.duration }}</td>
-          <td>{{ course.price }} F CFA</td>
-          <td>{{ course.summary|truncatechars:90 }}</td>
+          <td>{{ course.get_modality_display }}</td>
+          <td><span class="badge {% if course.status == 'inscriptions' %}bg-success{% elif course.status == 'complet' %}bg-danger{% else %}bg-secondary{% endif %}">{{ course.get_status_display }}</span></td>
+          <td>{% if course.price %}{{ course.price|floatformat:0 }} F{% else %}Sur devis{% endif %}</td>
           <td class="text-end">
             <a href="/gestion/formations/{{ course.pk }}/modifier/" class="btn btn-sm btn-outline-dark me-2"><i class="fa-solid fa-pen"></i></a>
             <form method="post" action="/gestion/formations/{{ course.pk }}/supprimer/" class="d-inline">{% csrf_token %}<button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer cette formation ?')"><i class="fa-solid fa-trash"></i></button></form>
@@ -55,7 +60,7 @@
         </tr>
         {% empty %}
         <tr>
-          <td colspan="5" class="text-center text-secondary py-4">Aucune formation créée pour le moment.</td>
+          <td colspan="8" class="text-center text-secondary py-4">Aucune formation créée pour le moment.</td>
         </tr>
         {% endfor %}
       </tbody>

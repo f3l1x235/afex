@@ -206,6 +206,17 @@
           <div class="col-md-6 col-xl-3">
             <div class="metric-card p-4">
               <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="metric-icon"><i class="fa-solid fa-inbox"></i></div>
+                <span class="badge bg-dark text-gold px-2 py-1">Leads</span>
+              </div>
+              <div class="display-5 fw-bold text-gold mb-1">{{ training_request_count|add:registration_count }}</div>
+              <div class="text-secondary">demandes et inscriptions</div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-xl-3">
+            <div class="metric-card p-4">
+              <div class="d-flex align-items-center justify-content-between mb-3">
                 <div class="metric-icon"><i class="fa-solid fa-bolt"></i></div>
                 <span class="badge bg-dark text-gold px-2 py-1">Impact</span>
               </div>
@@ -285,6 +296,34 @@
                 {% empty %}
                   <li>Aucune actualité enregistrée.</li>
                 {% endfor %}
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="admin-panel h-100 p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="text-gold mb-0"><i class="fa-solid fa-inbox me-2"></i>Demandes récentes</h3>
+                <a href="{% url 'admin_training_requests' %}" class="small text-dark">Voir tout</a>
+              </div>
+              <ul class="list-unstyled admin-list mb-0">
+                {% for training_request in training_requests %}
+                  <li><div class="fw-bold text-dark">{{ training_request.name }}</div><small class="text-secondary">{{ training_request.get_request_type_display }}</small></li>
+                {% empty %}<li>Aucune demande reçue.</li>{% endfor %}
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="admin-panel h-100 p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="text-gold mb-0"><i class="fa-solid fa-user-check me-2"></i>Inscriptions récentes</h3>
+                <a href="{% url 'admin_training_requests' %}" class="small text-dark">Voir tout</a>
+              </div>
+              <ul class="list-unstyled admin-list mb-0">
+                {% for registration in registrations %}
+                  <li><div class="fw-bold text-dark">{{ registration.name }}</div><small class="text-secondary">{{ registration.course.name }}</small></li>
+                {% empty %}<li>Aucune inscription reçue.</li>{% endfor %}
               </ul>
             </div>
           </div>

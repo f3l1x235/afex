@@ -182,6 +182,8 @@ def admin_dashboard(request):
     courses = Course.objects.order_by('-created_at')[:5]
     articles = Article.objects.order_by('-created_at')[:5]
     messages = ContactMessage.objects.order_by('-created_at')[:5]
+    training_requests = TrainingRequest.objects.order_by('-created_at')[:5]
+    registrations = CourseRegistration.objects.select_related('course').order_by('-created_at')[:5]
     categories = Category.objects.order_by('name')[:5]
     context = {
         'page_title': 'Tableau de bord ASFEX',
@@ -190,7 +192,11 @@ def admin_dashboard(request):
         'courses': courses,
         'articles': articles,
         'messages': messages,
+        'training_requests': training_requests,
+        'registrations': registrations,
         'categories': categories,
+        'training_request_count': TrainingRequest.objects.count(),
+        'registration_count': CourseRegistration.objects.count(),
     }
     return render(request, 'dashboard.html', context)
 
@@ -391,6 +397,20 @@ def admin_messages(request):
         'messages': messages_list,
     }
     return render(request, 'admin/messages.html', context)
+
+
+@login_required(login_url='/gestion/login/')
+@staff_member_required
+def admin_training_requests(request):
+    training_requests = TrainingRequest.objects.order_by('-created_at')
+    registrations = CourseRegistration.objects.select_related('course').order_by('-created_at')
+    context = {
+        'page_title': 'Demandes et inscriptions',
+        'meta_description': 'Consultez les demandes de devis, formations sur mesure et inscriptions ASFEX.',
+        'training_requests': training_requests,
+        'registrations': registrations,
+    }
+    return render(request, 'admin/training_requests.html', context)
 
 
 @login_required(login_url='/gestion/login/')

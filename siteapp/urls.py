@@ -33,6 +33,7 @@ urlpatterns = [
     path('gestion/messages/nouveau/', views.admin_messages_new, name='admin_messages_new'),
     path('gestion/messages/<int:pk>/modifier/', views.admin_message_edit, name='admin_message_edit'),
     path('gestion/messages/<int:pk>/supprimer/', views.admin_message_delete, name='admin_message_delete'),
+    path('gestion/demandes/', views.admin_training_requests, name='admin_training_requests'),
     path('gestion/profil/', views.user_profile, name='user_profile'),
     path('gestion/comptes/', views.admin_accounts, name='admin_accounts'),
     path('gestion/comptes/nouveau/', views.admin_account_new, name='admin_account_new'),

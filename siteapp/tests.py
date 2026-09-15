@@ -203,6 +203,36 @@ class SeoAndAdminAccessTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(1, ContactMessage.objects.filter(name='Brahim').count())
 
+    def test_admin_can_view_training_requests_and_registrations(self):
+        User = get_user_model()
+        user = User.objects.create_user(username='leadsadmin', password='secret123')
+        user.is_staff = True
+        user.save()
+
+        category = Category.objects.create(name='Data')
+        course = Course.objects.create(
+            name='Power BI', category=category, summary='Analysez vos données.', duration='3 jours'
+        )
+        TrainingRequest.objects.create(
+            name='Nadia', email='nadia@example.com', request_type='devis',
+            organization='Entreprise Tchad', participants=12, message='Un devis, merci.',
+        )
+        CourseRegistration.objects.create(
+            course=course, name='Ali', email='ali@example.com', organization='Cabinet Ali',
+        )
+
+        self.client.force_login(user)
+        response = self.client.get('/gestion/demandes/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Nadia')
+        self.assertContains(response, 'Ali')
+        self.assertContains(response, 'Power BI')
+
+        response = self.client.get('/gestion/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Demandes récentes')
+        self.assertContains(response, 'Inscriptions récentes')
+
     def test_admin_can_edit_and_delete_records(self):
         User = get_user_model()
         user = User.objects.create_user(username='manager2', password='secret123')
