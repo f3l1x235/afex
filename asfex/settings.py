@@ -14,24 +14,15 @@ if load_dotenv is not None:
 ENVIRONMENT = os.getenv('DJANGO_ENV', 'development').lower()
 DEBUG = os.getenv('DEBUG', 'True' if ENVIRONMENT == 'development' else 'False').lower() in {'1', 'true', 'yes', 'on'}
 
-SECRET_KEY = os.getenv('SECRET_KEY')
-if not SECRET_KEY:
-    if ENVIRONMENT == 'production':
-        raise ValueError('SECRET_KEY must be set in production environment')
-    # Use a temporary key for development only
-    SECRET_KEY = 'dev-only-insecure-key-change-in-production-12345'
-
-allowed_hosts = os.getenv(
-    'ALLOWED_HOSTS',
-    'localhost,127.0.0.1,example.com,www.example.com,f3l1x235.pythonanywhere.com'
+SECRET_KEY = os.getenv(
+    'SECRET_KEY',
+    'h8!a3nq8$4k2w#p7v^y@9d5m1x6r0n+z7r!8u3t2q5w9e1c2g4'
 )
-ALLOWED_HOSTS = [host.strip().rstrip('/') for host in allowed_hosts.split(',') if host.strip()]
 
-csrf_origins = os.getenv(
-    'CSRF_TRUSTED_ORIGINS',
-    'https://example.com,https://www.example.com,https://f3l1x235.pythonanywhere.com,http://localhost:8000,http://127.0.0.1:8000'
-)
-CSRF_TRUSTED_ORIGINS = [origin.strip().rstrip('/') for origin in csrf_origins.split(',') if origin.strip()]
+allowed_hosts = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,example.com,www.example.com')
+ALLOWED_HOSTS = [host.strip() for host in allowed_hosts.split(',') if host.strip()]
+
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in os.getenv('CSRF_TRUSTED_ORIGINS', 'https://example.com,https://www.example.com,http://localhost:8000,http://127.0.0.1:8000').split(',') if origin.strip()]
 
 IS_PRODUCTION = ENVIRONMENT == 'production' and not DEBUG
 SECURE_SSL_REDIRECT = IS_PRODUCTION
@@ -80,7 +71,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'siteapp.context_processors.site_seo',
             ],
         },
     },
@@ -158,9 +148,7 @@ SITE_NAME = 'ASFEX Formation Tchad'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = []
-if (BASE_DIR / 'static').exists():
-    STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [BASE_DIR / 'static']
 STORAGES = {
     'default': {
         'BACKEND': 'django.core.files.storage.FileSystemStorage',
@@ -178,11 +166,11 @@ SERVER_EMAIL = os.getenv('SERVER_EMAIL', DEFAULT_FROM_EMAIL)
 
 MAILERS = {
     'default': {
-        'BACKEND': os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend' if ENVIRONMENT == 'development' else 'django.core.mail.backends.smtp.EmailBackend'),
-        'HOST': os.getenv('EMAIL_HOST', ''),
+        'BACKEND': os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend'),
+        'HOST': os.getenv('EMAIL_HOST', 'smtp.gmail.com'),
         'PORT': int(os.getenv('EMAIL_PORT', '587')),
         'USE_TLS': os.getenv('EMAIL_USE_TLS', 'True').lower() in {'1', 'true', 'yes', 'on'},
-        'USERNAME': os.getenv('EMAIL_HOST_USER', ''),
-        'PASSWORD': os.getenv('EMAIL_HOST_PASSWORD', ''),
+        'USERNAME': os.getenv('EMAIL_HOST_USER', 'ziakrabaservice@gmail.com'),
+        'PASSWORD': os.getenv('EMAIL_HOST_PASSWORD', 'S1n9t3ub3@700#'),
     }
 }

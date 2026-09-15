@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Article, Category, ContactMessage, Course, SEOSettings
+from .models import Article, Category, ContactMessage, Course
 
 
 class CategoryForm(forms.ModelForm):
@@ -78,27 +78,9 @@ class ContactMessageForm(forms.ModelForm):
         }
 
 
-class SEOForm(forms.ModelForm):
-    class Meta:
-        model = SEOSettings
-        fields = ['site_name', 'homepage_title', 'meta_description', 'meta_keywords', 'service_name', 'service_description', 'canonical_url', 'focus_keyword']
-        widgets = {
-            'site_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'homepage_title': forms.TextInput(attrs={'class': 'form-control'}),
-            'meta_description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
-            'meta_keywords': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'service_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'service_description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
-            'canonical_url': forms.URLInput(attrs={'class': 'form-control'}),
-            'focus_keyword': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-        labels = {
-            'site_name': 'Nom du site',
-            'homepage_title': 'Titre de la page d’accueil',
-            'meta_description': 'Meta description',
-            'meta_keywords': 'Mots-clés',
-            'service_name': 'Nom du service',
-            'service_description': 'Description du service',
-            'canonical_url': 'URL canonique',
-            'focus_keyword': 'Mot-clé principal',
-        }
+class SEOForm(forms.Form):
+    site_name = forms.CharField(max_length=120, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    homepage_title = forms.CharField(max_length=160, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    meta_description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}))
+    canonical_url = forms.URLField(widget=forms.URLInput(attrs={'class': 'form-control'}))
+    focus_keyword = forms.CharField(max_length=120, required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
