@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+<section class="section-pad bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="text-center mb-5">
+          <span class="badge bg-dark text-gold rounded-pill px-3 py-2 mb-3"><i class="fa-solid {% if is_custom %}fa-puzzle-piece{% else %}fa-file-invoice-dollar{% endif %} me-2"></i>{% if is_custom %}Accompagnement personnalisé{% else %}Projet de formation{% endif %}</span>
+          <h1 class="fw-bold display-5">{% if is_custom %}Construisons votre formation sur mesure{% else %}Demandez votre devis{% endif %}</h1>
+          <p class="lead text-secondary">{% if is_custom %}Objectifs, durée, public et modalités : nous adaptons le programme à votre réalité.{% else %}Décrivez votre besoin et recevez une proposition adaptée à votre organisation.{% endif %}</p>
+        </div>
+        <div class="card p-4 p-lg-5">
+          {% for message in messages %}<div class="alert alert-success">{{ message }}</div>{% endfor %}
+          <form method="post" class="row g-3">{% csrf_token %}
+            {% for field in form %}<div class="{% if field.name == 'message' %}col-12{% else %}col-md-6{% endif %}">{{ field.label_tag }}{{ field }}{% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}</div>{% endfor %}
+            <div class="col-12"><button class="btn btn-gold btn-lg" type="submit"><i class="fa-solid fa-paper-plane me-2"></i>Envoyer ma demande</button></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

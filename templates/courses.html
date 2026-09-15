@@ -13,6 +13,10 @@
       </span>
       <h1 class="fw-bold display-5">Nos formations</h1>
       <p class="lead text-secondary">Des parcours conçus pour renforcer les compétences, améliorer les performances et accompagner la transformation des organisations.</p>
+      <div class="d-flex justify-content-center flex-wrap gap-2">
+        <a href="{% url 'training_calendar' %}" class="btn btn-gold"><i class="fa-solid fa-calendar-days me-2"></i>Voir le calendrier</a>
+        <a href="{% url 'custom_training' %}" class="btn btn-dark-gold"><i class="fa-solid fa-puzzle-piece me-2"></i>Formation sur mesure</a>
+      </div>
     </div>
 
     <div class="row g-4">
@@ -23,7 +27,10 @@
             <h3 class="fw-bold">{{ course.name }}</h3>
             <p class="text-secondary">{{ course.summary }}</p>
             <div class="mt-auto pt-3 border-top">
-              <strong class="text-gold">Durée : {{ course.duration }}</strong>
+              <div class="d-flex justify-content-between align-items-center gap-2">
+                <strong class="text-gold">Durée : {{ course.duration }}</strong>
+                <a href="{% url 'course_detail' course.pk %}" class="btn btn-sm btn-outline-dark">Voir la fiche</a>
+              </div>
             </div>
           </div>
         </div>

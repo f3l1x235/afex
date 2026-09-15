@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Article, ContactMessage, Course
+from .models import Article, ContactMessage, Course, CourseRegistration, TrainingRequest
 
 
 @admin.register(Course)
@@ -22,4 +22,20 @@ class ContactMessageAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'subject', 'created_at')
     search_fields = ('name', 'email', 'subject', 'message')
     list_filter = ('created_at',)
+    readonly_fields = ('created_at',)
+
+
+@admin.register(TrainingRequest)
+class TrainingRequestAdmin(admin.ModelAdmin):
+    list_display = ('name', 'request_type', 'organization', 'created_at')
+    search_fields = ('name', 'email', 'organization', 'message')
+    list_filter = ('request_type', 'created_at')
+    readonly_fields = ('created_at',)
+
+
+@admin.register(CourseRegistration)
+class CourseRegistrationAdmin(admin.ModelAdmin):
+    list_display = ('name', 'course', 'organization', 'created_at')
+    search_fields = ('name', 'email', 'organization', 'course__name')
+    list_filter = ('course', 'created_at')
     readonly_fields = ('created_at',)

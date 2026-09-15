@@ -5,10 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import ArticleForm, CategoryForm, ContactMessageForm, CourseForm, SEOForm
-from .models import Article, Category, ContactMessage, Course
+from .forms import ArticleForm, CategoryForm, ContactMessageForm, CourseForm, CourseRegistrationForm, SEOForm, TrainingRequestForm
+from .models import Article, Category, ContactMessage, Course, CourseRegistration, TrainingRequest
 
 
 def custom_admin_login(request):
@@ -65,6 +65,61 @@ def courses(request):
         'courses': courses,
     }
     return render(request, 'courses.html', context)
+
+
+def course_detail(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    registration_form = CourseRegistrationForm(request.POST or None)
+    if request.method == 'POST' and registration_form.is_valid():
+        registration = registration_form.save(commit=False)
+        registration.course = course
+        registration.save()
+        messages.success(request, 'Votre demande d’inscription a bien été enregistrée. Nous vous contacterons rapidement.')
+        return redirect('course_detail', pk=course.pk)
+
+    return render(request, 'course_detail.html', {
+        'page_title': f'{course.name} | ASFEX Formation Tchad',
+        'meta_description': course.summary,
+        'course': course,
+        'registration_form': registration_form,
+    })
+
+
+def training_calendar(request):
+    courses = Course.objects.exclude(status='terminee').order_by('start_date', 'name')
+    return render(request, 'training_calendar.html', {
+        'page_title': 'Calendrier des prochaines formations | ASFEX',
+        'meta_description': 'Consultez le calendrier des prochaines formations ASFEX et inscrivez-vous en ligne.',
+        'courses': courses,
+    })
+
+
+def training_request(request, request_type):
+    if request_type not in {'devis', 'sur-mesure'}:
+        return redirect('quote_request')
+    form = TrainingRequestForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        request_record = form.save(commit=False)
+        request_record.request_type = 'sur_mesure' if request_type == 'sur-mesure' else 'devis'
+        request_record.save()
+        messages.success(request, 'Votre demande a bien été envoyée. Notre équipe vous répondra rapidement.')
+        return redirect('custom_training' if request_type == 'sur-mesure' else 'quote_request')
+
+    is_custom = request_type == 'sur-mesure'
+    return render(request, 'training_request.html', {
+        'page_title': 'Formation sur mesure | ASFEX' if is_custom else 'Demande de devis | ASFEX',
+        'meta_description': 'Construisons une solution de formation adaptée à vos objectifs et à votre organisation.' if is_custom else 'Demandez un devis pour une formation professionnelle ASFEX.',
+        'form': form,
+        'is_custom': is_custom,
+    })
+
+
+def quote_request(request):
+    return training_request(request, 'devis')
+
+
+def custom_training(request):
+    return training_request(request, 'sur-mesure')
 
 
 def contact(request):

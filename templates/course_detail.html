@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.name }} | ASFEX Formation Tchad{% endblock %}
+{% block meta_description %}{{ course.summary }}{% endblock %}
+
+{% block content %}
+<section class="section-pad bg-light">
+  <div class="container">
+    <a href="{% url 'training_calendar' %}" class="text-dark text-decoration-none"><i class="fa-solid fa-arrow-left me-2"></i>Retour au calendrier</a>
+    <div class="row g-4 mt-2">
+      <div class="col-lg-7">
+        <div class="card p-4 p-lg-5 h-100">
+          <span class="badge bg-dark text-gold rounded-pill align-self-start mb-3">{{ course.category }}</span>
+          <h1 class="fw-bold mb-3">{{ course.name }}</h1>
+          <p class="lead text-secondary">{{ course.summary }}</p>
+          <div class="row g-3 border-top pt-4 mt-2">
+            <div class="col-sm-6"><small class="text-secondary d-block">Dates</small><strong>{% if course.start_date %}{{ course.start_date|date:'d M Y' }}{% if course.end_date %} - {{ course.end_date|date:'d M Y' }}{% endif %}{% else %}À définir{% endif %}</strong></div>
+            <div class="col-sm-6"><small class="text-secondary d-block">Durée</small><strong>{{ course.duration }}</strong></div>
+            <div class="col-sm-6"><small class="text-secondary d-block">Modalité</small><strong>{{ course.get_modality_display }}</strong></div>
+            <div class="col-sm-6"><small class="text-secondary d-block">Tarif</small><strong class="text-gold">{% if course.price %}{{ course.price|floatformat:0 }} F CFA{% else %}Sur devis{% endif %}</strong></div>
+          </div>
+          {% if course.details %}<div class="border-top pt-4 mt-4"><h2 class="h4">Programme et objectifs</h2><div class="text-secondary">{{ course.details|linebreaks }}</div></div>{% endif %}
+        </div>
+      </div>
+      <div class="col-lg-5" id="inscription">
+        <div class="card p-4 p-lg-5">
+          <h2 class="h3 fw-bold text-gold">S’inscrire à cette formation</h2>
+          <p class="text-secondary">Laissez vos coordonnées, notre équipe vous confirmera les modalités.</p>
+          {% for message in messages %}<div class="alert alert-success">{{ message }}</div>{% endfor %}
+          <form method="post" class="row g-3">{% csrf_token %}
+            {% for field in registration_form %}<div class="col-12">{{ field.label_tag }}{{ field }}{% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}</div>{% endfor %}
+            <div class="col-12"><button class="btn btn-gold w-100" type="submit"><i class="fa-solid fa-paper-plane me-2"></i>Envoyer ma demande</button></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

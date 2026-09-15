@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.test import TestCase
 
-from .models import Article, Category, ContactMessage, Course
+from .models import Article, Category, ContactMessage, Course, CourseRegistration, TrainingRequest
 
 
 class SeoAndAdminAccessTests(TestCase):
@@ -24,6 +24,41 @@ class SeoAndAdminAccessTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertTrue(response.url.startswith('/contact/'))
         self.assertEqual(1, len(__import__('siteapp.models', fromlist=['ContactMessage']).ContactMessage.objects.all()))
+
+    def test_training_calendar_detail_and_requests_work(self):
+        category = Category.objects.create(name='Bureautique')
+        course = Course.objects.create(
+            name='Excel avancé', category=category, summary='Perfectionnez vos tableaux.',
+            duration='20 h', price=25000, modality='presentiel', status='inscriptions',
+        )
+
+        response = self.client.get('/formations/calendrier/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Excel avancé')
+        self.assertContains(response, 'Inscriptions ouvertes')
+
+        response = self.client.get(f'/formations/{course.pk}/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'S’inscrire à cette formation')
+
+        response = self.client.post(f'/formations/{course.pk}/', {
+            'name': 'Moussa', 'email': 'moussa@example.com', 'phone': '+235 60 00 00 00',
+            'organization': 'ASFEX', 'message': 'Je souhaite participer.',
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(CourseRegistration.objects.filter(course=course, name='Moussa').exists())
+
+        request_data = {
+            'name': 'Amina', 'email': 'amina@example.com', 'phone': '+235 66 00 00 00',
+            'organization': 'Entreprise test', 'participants': 8, 'message': 'Besoin d’un devis.',
+        }
+        response = self.client.post('/demande-devis/', request_data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(TrainingRequest.objects.filter(request_type='devis', name='Amina').exists())
+
+        response = self.client.post('/formation-sur-mesure/', request_data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(TrainingRequest.objects.filter(request_type='sur_mesure', name='Amina').exists())
 
     def test_admin_dashboard_requires_login(self):
         response = self.client.get('/gestion/')

@@ -125,6 +125,8 @@
             <li class="nav-item"><a class="nav-link" href="/">Accueil</a></li>
             <li class="nav-item"><a class="nav-link" href="/a-propos/">À propos</a></li>
             <li class="nav-item"><a class="nav-link" href="/formations/">Formations</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'training_calendar' %}">Calendrier</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'quote_request' %}">Demander un devis</a></li>
             <li class="nav-item"><a class="nav-link" href="/actualites/">Actualités</a></li>
             <li class="nav-item"><a class="nav-link" href="/contact/">Contact</a></li>
             {% if user.is_authenticated and user.is_staff %}
@@ -161,7 +163,7 @@
       </div>
     </footer>
 
-    <a href="https://wa.me/23562153127" class="btn btn-success rounded-circle position-fixed bottom-0 end-0 m-4 d-flex align-items-center justify-content-center" style="width:60px;height:60px;z-index:1050;box-shadow:0 8px 24px rgba(0,0,0,0.25);" target="_blank" rel="noopener" aria-label="Contacter sur WhatsApp">
+    <a href="https://wa.me/235" class="btn btn-success rounded-circle position-fixed bottom-0 end-0 m-4 d-flex align-items-center justify-content-center" style="width:60px;height:60px;z-index:1050;box-shadow:0 8px 24px rgba(0,0,0,0.25);" target="_blank" rel="noopener" aria-label="Contacter sur WhatsApp">
       <i class="fa-brands fa-whatsapp fa-2x text-white"></i>
     </a>
 
