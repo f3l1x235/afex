@@ -96,9 +96,6 @@
             <h2 class="fw-bold">Écrivez-nous directement</h2>
             <p class="text-secondary mb-0">Une question sur une formation, un devis ou un accompagnement ?</p>
           </div>
-          {% for message in messages %}
-            <div class="alert alert-success" role="alert">{{ message }}</div>
-          {% endfor %}
           <form method="post" class="row g-3">
             {% csrf_token %}
             {% for field in contact_form %}

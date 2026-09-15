@@ -68,12 +68,6 @@
 </div>
 
 <div class="admin-panel p-4">
-  {% if messages %}
-    {% for message in messages %}
-      <div class="alert alert-success rounded-3 border-0 mb-4">{{ message }}</div>
-    {% endfor %}
-  {% endif %}
-
   <div class="profile-form-card admin-form">
     <form method="post">
       {% csrf_token %}

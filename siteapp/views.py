@@ -188,7 +188,7 @@ def privacy(request):
 def admin_dashboard(request):
     courses = Course.objects.order_by('-created_at')[:5]
     articles = Article.objects.order_by('-created_at')[:5]
-    messages = ContactMessage.objects.order_by('-created_at')[:5]
+    contact_messages = ContactMessage.objects.order_by('-created_at')[:5]
     training_requests = TrainingRequest.objects.order_by('-created_at')[:5]
     registrations = CourseRegistration.objects.select_related('course').order_by('-created_at')[:5]
     categories = Category.objects.order_by('name')[:5]
@@ -198,7 +198,7 @@ def admin_dashboard(request):
         'meta_keywords': 'admin ASFEX, tableau de bord, gestion du site, ASFEX Formation Tchad',
         'courses': courses,
         'articles': articles,
-        'messages': messages,
+        'contact_messages': contact_messages,
         'training_requests': training_requests,
         'registrations': registrations,
         'categories': categories,

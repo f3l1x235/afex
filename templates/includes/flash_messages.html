@@ -1,0 +1,11 @@
+{% if messages %}
+  <div class="flash-messages" aria-live="polite" aria-atomic="true">
+    {% for message in messages %}
+      <div class="flash-message flash-message-{{ message.tags|default:'info' }}" role="status">
+        <i class="fa-solid {% if 'success' in message.tags %}fa-circle-check{% elif 'error' in message.tags %}fa-circle-exclamation{% elif 'warning' in message.tags %}fa-triangle-exclamation{% else %}fa-circle-info{% endif %}"></i>
+        <span>{{ message }}</span>
+        <button type="button" class="flash-message-close" aria-label="Fermer">&times;</button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

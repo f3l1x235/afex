@@ -64,12 +64,6 @@
     </div>
 
     <div class="login-body">
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-warning border-0 rounded-3 mb-3">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-
       <form method="post" class="needs-validation" novalidate>
         {% csrf_token %}
         <div class="mb-3">
