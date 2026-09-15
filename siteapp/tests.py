@@ -25,6 +25,29 @@ class SeoAndAdminAccessTests(TestCase):
         self.assertTrue(response.url.startswith('/contact/'))
         self.assertEqual(1, len(__import__('siteapp.models', fromlist=['ContactMessage']).ContactMessage.objects.all()))
 
+    def test_home_message_is_saved_and_visible_in_management(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Écrivez-nous directement')
+
+        response = self.client.post('/', {
+            'name': 'Mariam',
+            'email': 'mariam@example.com',
+            'phone': '+235 60 00 00 02',
+            'subject': 'Question depuis l’accueil',
+            'message': 'Je souhaite en savoir plus sur vos formations.',
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(ContactMessage.objects.filter(name='Mariam').exists())
+
+        User = get_user_model()
+        user = User.objects.create_user(username='messagesadmin', password='secret123', is_staff=True)
+        self.client.force_login(user)
+        response = self.client.get('/gestion/messages/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Mariam')
+        self.assertContains(response, 'Question depuis l’accueil')
+
     def test_training_calendar_detail_and_requests_work(self):
         category = Category.objects.create(name='Bureautique')
         course = Course.objects.create(

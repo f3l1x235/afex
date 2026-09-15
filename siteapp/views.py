@@ -37,12 +37,19 @@ def admin_logout(request):
 def home(request):
     courses = Course.objects.order_by('created_at')[:3]
     latest_articles = Article.objects.order_by('-created_at')[:3]
+    contact_form = ContactMessageForm(request.POST or None)
+    if request.method == 'POST' and contact_form.is_valid():
+        contact_form.save()
+        messages.success(request, 'Votre message a bien été envoyé. Nous vous répondrons rapidement.')
+        return redirect('home')
+
     context = {
         'page_title': 'ASFEX Formation Tchad | Centre de Formation & Expertise',
         'meta_description': 'ASFEX Formation Tchad propose des formations professionnelles, certification, conseil et accompagnement en Afrique, avec une approche pratique et orientée emploi.',
         'meta_keywords': 'ASFEX Formation Tchad, centre de formation au Tchad, formations professionnelles, certification, expertise, conseil, N’Djamena',
         'courses': courses,
         'articles': latest_articles,
+        'contact_form': contact_form,
     }
     return render(request, 'home.html', context)
 
@@ -394,7 +401,7 @@ def admin_messages(request):
     context = {
         'page_title': 'Messages reçus',
         'meta_description': 'Consultez les demandes, demandes de devis et messages reçus.',
-        'messages': messages_list,
+        'contact_messages': messages_list,
     }
     return render(request, 'admin/messages.html', context)
 

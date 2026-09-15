@@ -3,11 +3,14 @@
 {% block admin_title %}Messages reçus{% endblock %}
 
 {% block admin_content %}
+{% for message in messages %}
+  {% if message.tags %}<div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>{% endif %}
+{% endfor %}
 <div class="row g-4 mb-4">
   <div class="col-md-6">
     <div class="page-stat">
       <div class="stat-label mb-2">Total</div>
-      <div class="stat-number">{{ messages|length }}</div>
+      <div class="stat-number">{{ contact_messages|length }}</div>
       <div class="text-secondary mt-2">messages reçus</div>
     </div>
   </div>
@@ -42,7 +45,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for message in messages %}
+        {% for message in contact_messages %}
         <tr>
           <td class="fw-bold">{{ message.name }}</td>
           <td>{{ message.email }}</td>
