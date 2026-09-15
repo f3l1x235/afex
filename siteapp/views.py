@@ -105,6 +105,22 @@ def articles(request):
     return render(request, 'articles.html', context)
 
 
+def terms(request):
+    return render(request, 'terms.html', {
+        'page_title': 'Conditions générales | ASFEX Formation Tchad',
+        'meta_description': 'Consultez les conditions générales d’utilisation du site et des services ASFEX Formation Tchad.',
+        'meta_keywords': 'conditions générales ASFEX, conditions utilisation, formation Tchad',
+    })
+
+
+def privacy(request):
+    return render(request, 'privacy.html', {
+        'page_title': 'Politique de confidentialité | ASFEX Formation Tchad',
+        'meta_description': 'Consultez la politique de confidentialité et de protection des données personnelles d’ASFEX Formation Tchad.',
+        'meta_keywords': 'confidentialité ASFEX, données personnelles, protection données Tchad',
+    })
+
+
 @login_required(login_url='/gestion/login/')
 @staff_member_required
 def admin_dashboard(request):
