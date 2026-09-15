@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.test import TestCase
 
-from .models import Article, Category, ContactMessage, Course, CourseRegistration, TrainingRequest
+from .models import Article, Category, ContactMessage, Course, CourseRegistration, TrainingLevel, TrainingRequest
 
 
 class SeoAndAdminAccessTests(TestCase):
@@ -82,6 +82,23 @@ class SeoAndAdminAccessTests(TestCase):
         response = self.client.post('/formation-sur-mesure/', request_data)
         self.assertEqual(response.status_code, 302)
         self.assertTrue(TrainingRequest.objects.filter(request_type='sur_mesure', name='Amina').exists())
+
+    def test_course_supports_multiple_training_levels(self):
+        category = Category.objects.create(name='Informatique')
+        beginner = TrainingLevel.objects.create(name='Débutant test', slug='debutant-test', display_order=1)
+        advanced = TrainingLevel.objects.create(name='Avancé test', slug='avance-test', display_order=2)
+        course = Course.objects.create(
+            name='Excel multi-niveaux', category=category, summary='Formation progressive.', duration='20 h'
+        )
+        course.levels.set([beginner, advanced])
+
+        self.assertEqual(list(course.levels.values_list('name', flat=True)), ['Débutant test', 'Avancé test'])
+        response = self.client.get('/formations/')
+        self.assertContains(response, 'Débutant test')
+        self.assertContains(response, 'Avancé test')
+
+        response = self.client.get('/gestion/formations/nouveau/')
+        self.assertEqual(response.status_code, 302)
 
     def test_admin_dashboard_requires_login(self):
         response = self.client.get('/gestion/')

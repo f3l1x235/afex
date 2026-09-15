@@ -1,6 +1,13 @@
 from django.contrib import admin
 
-from .models import Article, ContactMessage, Course, CourseRegistration, TrainingRequest
+from .models import Article, ContactMessage, Course, CourseRegistration, TrainingLevel, TrainingRequest
+
+
+@admin.register(TrainingLevel)
+class TrainingLevelAdmin(admin.ModelAdmin):
+    list_display = ('name', 'display_order')
+    prepopulated_fields = {'slug': ('name',)}
+    ordering = ('display_order', 'name')
 
 
 @admin.register(Course)
@@ -8,6 +15,7 @@ class CourseAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'duration', 'created_at')
     search_fields = ('name', 'category', 'summary')
     list_filter = ('category',)
+    filter_horizontal = ('levels',)
 
 
 @admin.register(Article)

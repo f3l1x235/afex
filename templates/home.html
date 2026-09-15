@@ -154,6 +154,7 @@
           <div class="card h-100 p-4">
             <span class="badge bg-light text-dark rounded-pill mb-3">{{ course.category }}</span>
             <h4>{{ course.name }}</h4>
+            <div class="mb-2">{% for level in course.levels.all %}<span class="badge bg-light text-dark border me-1">{{ level.name }}</span>{% endfor %}</div>
             <p class="text-secondary mb-0">{{ course.summary }}</p>
           </div>
         </div>

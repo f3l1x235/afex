@@ -199,7 +199,7 @@
                 <div class="metric-icon"><i class="fa-solid fa-envelope"></i></div>
                 <span class="badge bg-dark text-gold px-2 py-1">Messages</span>
               </div>
-              <div class="display-5 fw-bold text-gold mb-1">{{ messages|length }}</div>
+              <div class="display-5 fw-bold text-gold mb-1">{{ contact_messages|length }}</div>
               <div class="text-secondary">demandes reçues</div>
             </div>
           </div>
@@ -280,7 +280,7 @@
               <h3 class="text-gold mb-3"><i class="fa-solid fa-book me-2"></i>Formations récentes</h3>
               <ul class="list-unstyled admin-list mb-0">
                 {% for course in courses %}
-                  <li><i class="fa-solid fa-circle-check text-gold me-2"></i>{{ course.name }}</li>
+                  <li><i class="fa-solid fa-circle-check text-gold me-2"></i>{{ course.name }}{% for level in course.levels.all %}<span class="badge bg-light text-dark border ms-1">{{ level.name }}</span>{% endfor %}</li>
                 {% empty %}
                   <li>Aucune formation enregistrée.</li>
                 {% endfor %}

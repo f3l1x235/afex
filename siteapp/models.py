@@ -13,6 +13,21 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
+class TrainingLevel(models.Model):
+    name = models.CharField(max_length=80, unique=True)
+    slug = models.SlugField(max_length=80, unique=True)
+    display_order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['display_order', 'name']
+        verbose_name = 'niveau de formation'
+        verbose_name_plural = 'niveaux de formation'
+
+    def __str__(self):
+        return self.name
+
+
 class Course(models.Model):
     MODALITY_CHOICES = [
         ('presentiel', 'Présentiel'),
@@ -28,6 +43,7 @@ class Course(models.Model):
 
     name = models.CharField(max_length=200)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='formations')
+    levels = models.ManyToManyField(TrainingLevel, blank=True, related_name='formations')
     summary = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0, blank=True)
     duration = models.CharField(max_length=50)

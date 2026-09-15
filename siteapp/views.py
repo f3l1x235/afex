@@ -35,7 +35,7 @@ def admin_logout(request):
 
 
 def home(request):
-    courses = Course.objects.order_by('created_at')[:3]
+    courses = Course.objects.prefetch_related('levels').order_by('created_at')[:3]
     latest_articles = Article.objects.order_by('-created_at')[:3]
     contact_form = ContactMessageForm(request.POST or None)
     if request.method == 'POST' and contact_form.is_valid():
@@ -64,7 +64,7 @@ def about(request):
 
 
 def courses(request):
-    courses = Course.objects.order_by('name')
+    courses = Course.objects.prefetch_related('levels').order_by('name')
     context = {
         'page_title': 'Formations ASFEX | Programmes Professionnels',
         'meta_description': 'Explorez les formations professionnelles, expertises et programmes de renforcement de compétences proposés par ASFEX Formation Tchad.',
@@ -75,7 +75,7 @@ def courses(request):
 
 
 def course_detail(request, pk):
-    course = get_object_or_404(Course, pk=pk)
+    course = get_object_or_404(Course.objects.prefetch_related('levels'), pk=pk)
     registration_form = CourseRegistrationForm(request.POST or None)
     if request.method == 'POST' and registration_form.is_valid():
         registration = registration_form.save(commit=False)
@@ -93,7 +93,7 @@ def course_detail(request, pk):
 
 
 def training_calendar(request):
-    courses = Course.objects.exclude(status='terminee').order_by('start_date', 'name')
+    courses = Course.objects.prefetch_related('levels').exclude(status='terminee').order_by('start_date', 'name')
     return render(request, 'training_calendar.html', {
         'page_title': 'Calendrier des prochaines formations | ASFEX',
         'meta_description': 'Consultez le calendrier des prochaines formations ASFEX et inscrivez-vous en ligne.',
@@ -186,7 +186,7 @@ def privacy(request):
 @login_required(login_url='/gestion/login/')
 @staff_member_required
 def admin_dashboard(request):
-    courses = Course.objects.order_by('-created_at')[:5]
+    courses = Course.objects.prefetch_related('levels').order_by('-created_at')[:5]
     articles = Article.objects.order_by('-created_at')[:5]
     contact_messages = ContactMessage.objects.order_by('-created_at')[:5]
     training_requests = TrainingRequest.objects.order_by('-created_at')[:5]
@@ -273,7 +273,7 @@ def admin_category_delete(request, pk):
 @login_required(login_url='/gestion/login/')
 @staff_member_required
 def admin_formations(request):
-    courses = Course.objects.order_by('-created_at')
+    courses = Course.objects.prefetch_related('levels').order_by('-created_at')
     context = {
         'page_title': 'Gestion des formations',
         'meta_description': 'Gérez les formations ASFEX depuis l’espace d’administration.',

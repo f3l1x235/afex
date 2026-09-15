@@ -24,7 +24,7 @@
           <tbody>
             {% for course in courses %}
             <tr>
-              <td><a class="fw-bold text-dark" href="{% url 'course_detail' course.pk %}">{{ course.name }}</a><div class="small text-secondary">{{ course.category }}</div></td>
+              <td><a class="fw-bold text-dark" href="{% url 'course_detail' course.pk %}">{{ course.name }}</a><div class="small text-secondary">{{ course.category }}</div><div class="mt-1">{% for level in course.levels.all %}<span class="badge bg-light text-dark border me-1">{{ level.name }}</span>{% endfor %}</div></td>
               <td>{% if course.start_date %}{{ course.start_date|date:'d M Y' }}{% if course.end_date %} - {{ course.end_date|date:'d M Y' }}{% endif %}{% else %}Date à venir{% endif %}</td>
               <td>{{ course.duration }}</td>
               <td>{{ course.get_modality_display }}</td>

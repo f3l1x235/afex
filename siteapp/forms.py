@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Article, Category, ContactMessage, Course, CourseRegistration, TrainingRequest
+from .models import Article, Category, ContactMessage, Course, CourseRegistration, TrainingLevel, TrainingRequest
 
 
 class CategoryForm(forms.ModelForm):
@@ -26,10 +26,11 @@ class CourseForm(forms.ModelForm):
 
     class Meta:
         model = Course
-        fields = ['name', 'category', 'summary', 'duration', 'price', 'start_date', 'end_date', 'modality', 'status', 'details']
+        fields = ['name', 'category', 'levels', 'summary', 'duration', 'price', 'start_date', 'end_date', 'modality', 'status', 'details']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nom de la formation'}),
             'category': forms.Select(attrs={'class': 'form-control'}),
+            'levels': forms.SelectMultiple(attrs={'class': 'form-control', 'size': 4}),
             'duration': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex. 2 jours / 3 semaines'}),
             'summary': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Résumé de la formation'}),
             'start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
@@ -41,6 +42,7 @@ class CourseForm(forms.ModelForm):
         labels = {
             'name': 'Nom de la formation',
             'category': 'Catégorie',
+            'levels': 'Niveaux de formation',
             'summary': 'Résumé',
             'duration': 'Durée',
             'price': 'Prix (en F CFA)',
@@ -53,6 +55,8 @@ class CourseForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['levels'].queryset = TrainingLevel.objects.all()
+        self.fields['levels'].help_text = 'Maintenez Ctrl (Windows) ou Cmd (Mac) pour sélectionner plusieurs niveaux.'
         for field_name in ['start_date', 'end_date', 'modality', 'status', 'details']:
             self.fields[field_name].required = False
 
