@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}{{ page_title|default:'ASFEX Formation Tchad' }}{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}{{ meta_description|default:'ASFEX Formation Tchad, centre de formation et expertise au Tchad pour des formations professionnelles et un accompagnement sur mesure.' }}{% endblock %}" />
-    <meta name="keywords" content="{% block meta_keywords %}{{ meta_keywords|default:'ASFEX Formation Tchad, formations professionnelles, certification, expertise, Tchad, N’Djamena' }}{% endblock %}" />
+    <title>{% block title %}{{ page_title|default:seo_settings.homepage_title|default:'ASFEX Formation Tchad' }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ meta_description|default:seo_settings.meta_description|default:'ASFEX Formation Tchad, centre de formation et expertise au Tchad pour des formations professionnelles et un accompagnement sur mesure.' }}{% endblock %}" />
+    <meta name="keywords" content="{% block meta_keywords %}{{ meta_keywords|default:seo_settings.focus_keyword|default:'formation professionnelle Tchad' }}{% endblock %}" />
     <meta name="robots" content="index, follow" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="{% block og_title %}{{ page_title|default:'ASFEX Formation Tchad' }}{% endblock %}" />
@@ -147,7 +147,7 @@
     {% include 'includes/flash_messages.html' %}
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
       <div class="container">
-        <a class="navbar-brand brand-gold" href="/">ASFEX</a>
+        <a class="navbar-brand brand-gold" href="/">{{ seo_settings.site_name|default:'ASFEX' }}</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>

@@ -1,6 +1,16 @@
 from django.contrib import admin
 
-from .models import Article, ContactMessage, Course, CourseRegistration, TrainingLevel, TrainingRequest
+from .models import Article, ContactMessage, Course, CourseRegistration, SEOSettings, TrainingLevel, TrainingRequest
+
+
+@admin.register(SEOSettings)
+class SEOSettingsAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Référencement global', {'fields': ('site_name', 'homepage_title', 'meta_description', 'canonical_url', 'focus_keyword')}),
+    )
+
+    def has_add_permission(self, request):
+        return not SEOSettings.objects.exists()
 
 
 @admin.register(TrainingLevel)

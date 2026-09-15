@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Article, Category, ContactMessage, Course, CourseRegistration, TrainingLevel, TrainingRequest
+from .models import Article, Category, ContactMessage, Course, CourseRegistration, SEOSettings, TrainingLevel, TrainingRequest
 
 
 class CategoryForm(forms.ModelForm):
@@ -129,9 +129,21 @@ class CourseRegistrationForm(forms.ModelForm):
         }
 
 
-class SEOForm(forms.Form):
-    site_name = forms.CharField(max_length=120, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    homepage_title = forms.CharField(max_length=160, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    meta_description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}))
-    canonical_url = forms.URLField(widget=forms.URLInput(attrs={'class': 'form-control'}))
-    focus_keyword = forms.CharField(max_length=120, required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+class SEOForm(forms.ModelForm):
+    class Meta:
+        model = SEOSettings
+        fields = ['site_name', 'homepage_title', 'meta_description', 'canonical_url', 'focus_keyword']
+        widgets = {
+            'site_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'homepage_title': forms.TextInput(attrs={'class': 'form-control'}),
+            'meta_description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'canonical_url': forms.URLInput(attrs={'class': 'form-control'}),
+            'focus_keyword': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'site_name': 'Nom du site',
+            'homepage_title': 'Titre de la page d’accueil',
+            'meta_description': 'Description meta globale',
+            'canonical_url': 'URL canonique',
+            'focus_keyword': 'Mot-clé principal',
+        }

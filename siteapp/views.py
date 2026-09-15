@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import ArticleForm, CategoryForm, ContactMessageForm, CourseForm, CourseRegistrationForm, SEOForm, TrainingRequestForm
-from .models import Article, Category, ContactMessage, Course, CourseRegistration, TrainingRequest
+from .models import Article, Category, ContactMessage, Course, CourseRegistration, SEOSettings, TrainingRequest
 
 
 def custom_admin_login(request):
@@ -37,6 +37,7 @@ def admin_logout(request):
 def home(request):
     courses = Course.objects.prefetch_related('levels').order_by('created_at')[:3]
     latest_articles = Article.objects.order_by('-created_at')[:3]
+    seo = SEOSettings.get_current()
     contact_form = ContactMessageForm(request.POST or None)
     if request.method == 'POST' and contact_form.is_valid():
         contact_form.save()
@@ -44,9 +45,9 @@ def home(request):
         return redirect('home')
 
     context = {
-        'page_title': 'ASFEX Formation Tchad | Centre de Formation & Expertise',
-        'meta_description': 'ASFEX Formation Tchad propose des formations professionnelles, certification, conseil et accompagnement en Afrique, avec une approche pratique et orientée emploi.',
-        'meta_keywords': 'ASFEX Formation Tchad, centre de formation au Tchad, formations professionnelles, certification, expertise, conseil, N’Djamena',
+        'page_title': seo.homepage_title,
+        'meta_description': seo.meta_description,
+        'meta_keywords': seo.focus_keyword,
         'courses': courses,
         'articles': latest_articles,
         'contact_form': contact_form,
@@ -473,18 +474,20 @@ def admin_message_delete(request, pk):
 @login_required(login_url='/gestion/login/')
 @staff_member_required
 def admin_seo(request):
-    initial = {
-        'site_name': 'ASFEX Formation Tchad',
-        'homepage_title': 'ASFEX Formation Tchad | Centre de Formation & Expertise',
-        'meta_description': 'Centre de formation et expertise au Tchad pour des formations professionnelles, certification et accompagnement sur mesure.',
-        'canonical_url': 'https://www.asfex-formation-tchad.com/',
-        'focus_keyword': 'formation professionnelle Tchad',
-    }
-    form = SEOForm(initial=initial)
+    seo = SEOSettings.get_current()
+    if request.method == 'POST':
+        form = SEOForm(request.POST, instance=seo)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Les paramètres SEO ont été mis à jour sur le site.')
+            return redirect('admin_seo')
+    else:
+        form = SEOForm(instance=seo)
     context = {
         'page_title': 'SEO / Référencement',
         'meta_description': 'Gérez les paramètres SEO et la visibilité du site ASFEX.',
         'form': form,
+        'seo_settings': seo,
     }
     return render(request, 'admin/seo.html', context)
 

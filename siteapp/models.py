@@ -14,6 +14,27 @@ class Category(models.Model):
         return self.name
 
 
+class SEOSettings(models.Model):
+    site_name = models.CharField(max_length=120, default='ASFEX Formation Tchad')
+    homepage_title = models.CharField(max_length=160, default='ASFEX Formation Tchad | Centre de Formation & Expertise')
+    meta_description = models.TextField(default='ASFEX Formation Tchad, centre de formation et expertise au Tchad pour des formations professionnelles et un accompagnement sur mesure.')
+    canonical_url = models.URLField(default='https://www.asfex-formation-tchad.com/')
+    focus_keyword = models.CharField(max_length=120, blank=True, default='formation professionnelle Tchad')
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'paramètres SEO'
+        verbose_name_plural = 'paramètres SEO'
+
+    def __str__(self):
+        return self.site_name
+
+    @classmethod
+    def get_current(cls):
+        settings, _ = cls.objects.get_or_create(pk=1)
+        return settings
+
+
 class TrainingLevel(models.Model):
     name = models.CharField(max_length=80, unique=True)
     slug = models.SlugField(max_length=80, unique=True)

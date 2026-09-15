@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.test import TestCase
 
-from .models import Article, Category, ContactMessage, Course, CourseRegistration, TrainingLevel, TrainingRequest
+from .models import Article, Category, ContactMessage, Course, CourseRegistration, SEOSettings, TrainingLevel, TrainingRequest
 
 
 class SeoAndAdminAccessTests(TestCase):
@@ -99,6 +99,30 @@ class SeoAndAdminAccessTests(TestCase):
 
         response = self.client.get('/gestion/formations/nouveau/')
         self.assertEqual(response.status_code, 302)
+
+    def test_seo_settings_are_saved_and_used_on_home_and_admin(self):
+        User = get_user_model()
+        user = User.objects.create_user(username='seo_admin', password='secret123', is_staff=True)
+        self.client.force_login(user)
+
+        response = self.client.post('/gestion/seo/', {
+            'site_name': 'ASFEX Digital',
+            'homepage_title': 'ASFEX Digital | Formation moderne',
+            'meta_description': 'Une description SEO personnalisée pour ASFEX.',
+            'canonical_url': 'https://www.asfex.td/',
+            'focus_keyword': 'formation digitale Tchad',
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(SEOSettings.objects.get().site_name, 'ASFEX Digital')
+
+        response = self.client.get('/')
+        self.assertContains(response, '<title>ASFEX Digital | Formation moderne</title>', html=True)
+        self.assertContains(response, 'Une description SEO personnalisée pour ASFEX.')
+        self.assertContains(response, 'formation digitale Tchad')
+
+        response = self.client.get('/gestion/seo/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'ASFEX Digital')
 
     def test_admin_dashboard_requires_login(self):
         response = self.client.get('/gestion/')
