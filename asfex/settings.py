@@ -19,7 +19,7 @@ SECRET_KEY = os.getenv(
     'h8!a3nq8$4k2w#p7v^y@9d5m1x6r0n+z7r!8u3t2q5w9e1c2g4'
 )
 
-allowed_hosts = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,example.com,www.example.com')
+allowed_hosts = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,example.com,www.example.com,f3l1x235.pythonanywhere.com')
 ALLOWED_HOSTS = [host.strip() for host in allowed_hosts.split(',') if host.strip()]
 
 CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in os.getenv('CSRF_TRUSTED_ORIGINS', 'https://example.com,https://www.example.com,http://localhost:8000,http://127.0.0.1:8000').split(',') if origin.strip()]
