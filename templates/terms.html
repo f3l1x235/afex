@@ -1,36 +1,63 @@
 {% extends 'base.html' %}
 
 {% block title %}Conditions générales | ASFEX Formation Tchad{% endblock %}
-{% block meta_description %}Conditions générales d’utilisation du site et des services ASFEX Formation Tchad.{% endblock %}
-{% block meta_keywords %}conditions générales ASFEX, conditions utilisation, formation Tchad{% endblock %}
+{% block meta_description %}Consultez les conditions générales d’utilisation du site, des formations et des services d’ASFEX Formation Tchad.{% endblock %}
+{% block meta_keywords %}conditions générales d’utilisation, ASFEX Formation Tchad, services de formation{% endblock %}
+{% block og_url %}https://www.asfex-formation-tchad.com/conditions-generales/{% endblock %}
+{% block canonical_url %}https://www.asfex-formation-tchad.com/conditions-generales/{% endblock %}
+{% block hreflang_url %}https://www.asfex-formation-tchad.com/conditions-generales/{% endblock %}
+{% block head_extra %}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Conditions générales d’utilisation",
+    "url": "https://www.asfex-formation-tchad.com/conditions-generales/",
+    "inLanguage": "fr",
+    "isPartOf": {"@type": "WebSite", "name": "ASFEX Formation Tchad", "url": "https://www.asfex-formation-tchad.com/"},
+    "dateModified": "2026-09-15"
+  }
+</script>
+{% endblock %}
 
 {% block content %}
 <section class="section-pad bg-light">
   <div class="container">
+    <nav aria-label="Fil d’Ariane" class="mb-4">
+      <ol class="breadcrumb small mb-0">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Accueil</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Conditions générales</li>
+      </ol>
+    </nav>
     <div class="text-center mb-5">
       <span class="badge bg-dark text-gold rounded-pill px-3 py-2 mb-3"><i class="fa-solid fa-file-contract me-2"></i>Informations légales</span>
-      <h1 class="fw-bold display-5">Conditions générales</h1>
-      <p class="lead text-secondary">Les règles applicables à l’utilisation du site et aux services d’ASFEX.</p>
+      <h1 class="fw-bold display-5">Conditions générales d’utilisation</h1>
+      <p class="lead text-secondary">Les règles applicables à l’utilisation du site et aux services d’ASFEX Formation Tchad.</p>
     </div>
 
     <div class="card p-4 p-lg-5 border-0 shadow-sm">
-      <h2 class="h4 text-gold">1. Objet</h2>
-      <p class="text-secondary">Les présentes conditions définissent les règles d’accès et d’utilisation du site ASFEX Formation Tchad ainsi que les principes applicables aux demandes de formation, de conseil et d’accompagnement.</p>
+      <p class="small text-secondary">Dernière mise à jour : 15 septembre 2026</p>
+
+      <h2 class="h4 text-gold">1. Objet et éditeur</h2>
+      <p class="text-secondary">Les présentes conditions définissent les règles d’accès et d’utilisation du site ASFEX Formation Tchad ainsi que les principes applicables aux demandes de formation, de conseil et d’accompagnement. Le site est édité par ASFEX Formation Tchad, joignable à bonjour@asfex.td et au +235 62 15 31 27.</p>
 
       <h2 class="h4 text-gold mt-4">2. Accès au site</h2>
       <p class="text-secondary">Le site est accessible gratuitement, hors frais de connexion et de matériel supportés par l’utilisateur. ASFEX s’efforce de maintenir le site disponible, sans garantir une disponibilité continue ni l’absence d’erreurs.</p>
 
       <h2 class="h4 text-gold mt-4">3. Services et demandes</h2>
-      <p class="text-secondary">Les informations présentées sur le site sont générales et peuvent être modifiées. Toute demande de formation, de devis ou de partenariat fait l’objet d’un échange préalable avec ASFEX. Les conditions commerciales applicables sont précisées avant toute prestation.</p>
+      <p class="text-secondary">Les informations présentées sur le site sont générales et peuvent être modifiées. Toute demande de formation, de devis ou de partenariat fait l’objet d’un échange préalable avec ASFEX. Les conditions commerciales, le programme, le calendrier et les modalités de paiement applicables sont précisés avant toute prestation.</p>
 
       <h2 class="h4 text-gold mt-4">4. Propriété intellectuelle</h2>
       <p class="text-secondary">Les textes, visuels, logos et contenus du site sont protégés par les règles applicables à la propriété intellectuelle. Toute reproduction ou réutilisation non autorisée est interdite.</p>
 
-      <h2 class="h4 text-gold mt-4">5. Responsabilité</h2>
+      <h2 class="h4 text-gold mt-4">5. Liens externes</h2>
+      <p class="text-secondary">Le site peut contenir des liens vers des services tiers. ASFEX ne contrôle pas ces sites et n’est pas responsable de leur contenu, de leur disponibilité ou de leurs propres conditions d’utilisation.</p>
+
+      <h2 class="h4 text-gold mt-4">6. Responsabilité</h2>
       <p class="text-secondary">L’utilisateur utilise le site sous sa responsabilité. ASFEX ne peut être tenue responsable des dommages résultant de l’utilisation du site, d’une interruption temporaire ou de contenus de sites tiers accessibles par lien.</p>
 
-      <h2 class="h4 text-gold mt-4">6. Contact</h2>
-      <p class="text-secondary mb-0">Pour toute question concernant ces conditions, contactez ASFEX Formation Tchad au <a href="tel:+23562153127">+235 62 15 31 27</a> ou à l’adresse bonjour@asfex.td.</p>
+      <h2 class="h4 text-gold mt-4">7. Droit applicable et contact</h2>
+      <p class="text-secondary mb-0">Les présentes conditions sont interprétées conformément aux règles applicables au lieu d’établissement d’ASFEX, sous réserve des dispositions impératives protectrices du consommateur. Pour toute question, contactez ASFEX Formation Tchad au <a href="tel:+23562153127">+235 62 15 31 27</a> ou à l’adresse <a href="mailto:bonjour@asfex.td">bonjour@asfex.td</a>.</p>
     </div>
   </div>
 </section>
