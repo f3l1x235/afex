@@ -15,7 +15,7 @@
           <p class="lead text-secondary">{{ course.summary }}</p>
           <div class="row g-3 border-top pt-4 mt-2">
             <div class="col-sm-6"><small class="text-secondary d-block">Dates</small><strong>{% if course.start_date %}{{ course.start_date|date:'d M Y' }}{% if course.end_date %} - {{ course.end_date|date:'d M Y' }}{% endif %}{% else %}À définir{% endif %}</strong></div>
-            <div class="col-sm-6"><small class="text-secondary d-block">Durée</small><strong>{{ course.duration }}</strong></div>
+            <div class="col-sm-6"><small class="text-secondary d-block">Durée</small><strong>{{ course.duration }} Heure(s)</strong></div>
             <div class="col-sm-6"><small class="text-secondary d-block">Modalité</small><strong>{{ course.get_modality_display }}</strong></div>
             <div class="col-sm-6"><small class="text-secondary d-block">Tarif</small><strong class="text-gold">{% if course.price %}{{ course.price|floatformat:0 }} F CFA{% else %}Sur devis{% endif %}</strong></div>
           </div>
