@@ -67,6 +67,7 @@
             <span class="badge bg-dark text-gold rounded-pill mb-3">{{ item.get_resource_type_display }}</span>
             <h3 class="fw-bold">{{ item.title }}</h3>
             <p class="text-secondary mb-0">{{ item.excerpt|default:item.content|truncatechars:150 }}</p>
+            <p class="text-muted small mb-0">Fichier : {{ item.files.name|default:"Aucun fichier" }}</p>
           </article>
         </div>
       {% empty %}
