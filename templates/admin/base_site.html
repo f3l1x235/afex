@@ -1,6 +1,13 @@
 {% extends 'admin/base.html' %}
+{% load static %}
 
 {% block title %}ASFEX Administration | Gestion du site{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="icon" type="image/x-icon" href="{% static 'images/asfex.ico' %}" />
+<link rel="shortcut icon" href="{% static 'images/asfex.ico' %}" />
+{% endblock %}
 
 {% block extrastyle %}
 {{ block.super }}
