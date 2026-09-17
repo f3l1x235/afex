@@ -80,7 +80,7 @@ class ArticleForm(forms.ModelForm):
 class ResourceForm(forms.ModelForm):
     class Meta:
         model = Resource
-        fields = ['title', 'resource_type', 'excerpt', 'content']
+        fields = ['title', 'resource_type', 'excerpt', 'content', 'src']
         if 'files' in [field.name for field in Resource._meta.get_fields()]:
             fields.append('files')
         widgets = {
@@ -88,14 +88,14 @@ class ResourceForm(forms.ModelForm):
             'resource_type': forms.Select(attrs={'class': 'form-control'}),
             'excerpt': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Extrait court'}),
             'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 6, 'placeholder': 'Contenu de la ressource'}),
-            'files': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'src': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
         labels = {
             'title': 'Titre',
             'resource_type': 'Type de ressource',
             'excerpt': 'Extrait',
             'content': 'Contenu',
-            'files': 'Fichier joint (facultatif)',
+            'src': 'Fichier joint (facultatif)',
         }
 
 

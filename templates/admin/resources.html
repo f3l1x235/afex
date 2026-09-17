@@ -36,6 +36,7 @@
           <th>Titre</th>
           <th>Type</th>
           <th>Date</th>
+          <th>Fichier</th>
           <th class="text-end">Actions</th>
         </tr>
       </thead>
@@ -44,7 +45,7 @@
         <tr>
           <td class="fw-bold">{{ resource.title }}</td>
           <td>{{ resource.get_resource_type_display }}</td>
-          <td>{{ resource.files.name|default:"Aucun fichier" }}</td>
+          <td>{{ resource.src.name|default:"Aucun fichier" }}</td>
           <td>{{ resource.created_at|date:'d/m/Y' }}</td>
           <td class="text-end">
             <a href="/gestion/ressources/{{ resource.pk }}/modifier/" class="btn btn-sm btn-outline-dark me-2"><i class="fa-solid fa-pen"></i></a>
