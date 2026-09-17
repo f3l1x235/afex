@@ -37,10 +37,16 @@ class ArticleAdmin(admin.ModelAdmin):
 
 @admin.register(Resource)
 class ResourceAdmin(admin.ModelAdmin):
-    list_display = ('title', 'resource_type', 'files', 'created_at')
-    search_fields = ('title', 'excerpt', 'content', 'files')
+    list_display = ('title', 'resource_type', 'file_name', 'created_at')
+    search_fields = ('title', 'excerpt', 'content')
     list_filter = ('resource_type', 'created_at')
     readonly_fields = ('created_at',)
+
+    @admin.display(description='Fichier')
+    def file_name(self, obj):
+        if obj.files and obj.files.name:
+            return obj.files.name
+        return '-'
 
 
 @admin.register(ContactMessage)
