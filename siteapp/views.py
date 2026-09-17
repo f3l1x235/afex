@@ -222,7 +222,7 @@ def admin_dashboard(request):
     total_content = course_count + article_count + resource_count
     total_interactions = contact_message_count + training_request_count + registration_count
 
-    visibility = min(99, max(35, round(45 + total_content * 6 + resource_count * 4)))
+    visibility = 85
     engagement = min(99, max(20, round(30 + contact_message_count * 8 + (training_request_count + registration_count) * 10)))
     growth = min(99, max(0, round((training_request_count + registration_count) * 12 + resource_count * 3)))
 
