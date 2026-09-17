@@ -430,7 +430,7 @@ def admin_article_delete(request, pk):
 @staff_member_required
 def admin_resources_new(request):
     if request.method == 'POST':
-        form = ResourceForm(request.POST)
+        form = ResourceForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, 'Ressource ajoutée avec succès.')
@@ -451,7 +451,7 @@ def admin_resources_new(request):
 def admin_resource_edit(request, pk):
     resource = Resource.objects.get(pk=pk)
     if request.method == 'POST':
-        form = ResourceForm(request.POST, instance=resource)
+        form = ResourceForm(request.POST, request.FILES, instance=resource)
         if form.is_valid():
             form.save()
             messages.success(request, 'Ressource mise à jour avec succès.')

@@ -80,19 +80,20 @@ class ArticleForm(forms.ModelForm):
 class ResourceForm(forms.ModelForm):
     class Meta:
         model = Resource
-        fields = ['title', 'resource_type', 'excerpt', 'content']
+        fields = ['title', 'resource_type', 'excerpt', 'content', 'files']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Titre de la ressource'}),
             'resource_type': forms.Select(attrs={'class': 'form-control'}),
             'excerpt': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Extrait court'}),
-            'files': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
             'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 6, 'placeholder': 'Contenu de la ressource'}),
+            'files': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
         labels = {
             'title': 'Titre',
             'resource_type': 'Type de ressource',
             'excerpt': 'Extrait',
             'content': 'Contenu',
+            'files': 'Fichier joint (facultatif)',
         }
 
 

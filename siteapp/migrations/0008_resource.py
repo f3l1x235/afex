@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
                 ('resource_type', models.CharField(choices=[('article', 'Article'), ('tutoriel', 'Tutoriel'), ('conseil', 'Conseil pratique'), ('gratuite', 'Ressource gratuite'), ('actualite', 'Actualité ASFEX')], default='article', max_length=20)),
                 ('excerpt', models.TextField(blank=True)),
                 ('content', models.TextField()),
+                ('files', models.FileField(blank=True, null=True, upload_to='resources/')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
             ],
             options={
