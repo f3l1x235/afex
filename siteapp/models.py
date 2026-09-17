@@ -93,6 +93,29 @@ class Article(models.Model):
         return self.title
 
 
+class Resource(models.Model):
+    RESOURCE_TYPES = [
+        ('article', 'Article'),
+        ('tutoriel', 'Tutoriel'),
+        ('conseil', 'Conseil pratique'),
+        ('gratuite', 'Ressource gratuite'),
+        ('actualite', 'Actualité ASFEX'),
+    ]
+
+    title = models.CharField(max_length=200)
+    resource_type = models.CharField(max_length=20, choices=RESOURCE_TYPES, default='article')
+    excerpt = models.TextField(blank=True)
+    content = models.TextField()
+    files = models.FileField(upload_to='resources/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.title
+
+
 class ContactMessage(models.Model):
     name = models.CharField(max_length=150)
     email = models.EmailField()

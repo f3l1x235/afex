@@ -7,8 +7,8 @@ from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import ArticleForm, CategoryForm, ContactMessageForm, CourseForm, CourseRegistrationForm, SEOForm, TrainingRequestForm
-from .models import Article, Category, ContactMessage, Course, CourseRegistration, SEOSettings, TrainingRequest
+from .forms import ArticleForm, CategoryForm, ContactMessageForm, CourseForm, CourseRegistrationForm, ResourceForm, SEOForm, TrainingRequestForm
+from .models import Article, Category, ContactMessage, Course, CourseRegistration, Resource, SEOSettings, TrainingRequest
 
 
 def custom_admin_login(request):
@@ -174,6 +174,17 @@ def articles(request):
         'articles': posts,
     }
     return render(request, 'articles.html', context)
+
+
+def resources(request):
+    resources = Resource.objects.order_by('-created_at')
+    context = {
+        'page_title': 'Ressources ASFEX Formation Tchad',
+        'meta_description': 'Découvrez nos articles, tutoriels, conseils pratiques, ressources gratuites et actualités ASFEX.',
+        'meta_keywords': 'ressources ASFEX, articles, tutoriels, conseils pratiques, actualités, Tchad',
+        'resources': resources,
+    }
+    return render(request, 'resources.html', context)
 
 
 def terms(request):
@@ -355,6 +366,18 @@ def admin_articles(request):
 
 @login_required(login_url='/gestion/login/')
 @staff_member_required
+def admin_resources(request):
+    resources = Resource.objects.order_by('-created_at')
+    context = {
+        'page_title': 'Gestion des ressources',
+        'meta_description': 'Gérez les ressources, tutoriels, conseils et contenus ASFEX.',
+        'resources': resources,
+    }
+    return render(request, 'admin/resources.html', context)
+
+
+@login_required(login_url='/gestion/login/')
+@staff_member_required
 def admin_articles_new(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST)
@@ -401,6 +424,56 @@ def admin_article_delete(request, pk):
     article.delete()
     messages.success(request, 'Article supprimé avec succès.')
     return redirect('admin_articles')
+
+
+@login_required(login_url='/gestion/login/')
+@staff_member_required
+def admin_resources_new(request):
+    if request.method == 'POST':
+        form = ResourceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Ressource ajoutée avec succès.')
+            return redirect('admin_resources')
+    else:
+        form = ResourceForm()
+
+    context = {
+        'page_title': 'Ajouter une ressource',
+        'form': form,
+        'form_title': 'Ajouter une ressource',
+    }
+    return render(request, 'admin/form_editor.html', context)
+
+
+@login_required(login_url='/gestion/login/')
+@staff_member_required
+def admin_resource_edit(request, pk):
+    resource = Resource.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = ResourceForm(request.POST, instance=resource)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Ressource mise à jour avec succès.')
+            return redirect('admin_resources')
+    else:
+        form = ResourceForm(instance=resource)
+
+    context = {
+        'page_title': 'Modifier une ressource',
+        'form': form,
+        'form_title': 'Modifier une ressource',
+    }
+    return render(request, 'admin/form_editor.html', context)
+
+
+@login_required(login_url='/gestion/login/')
+@staff_member_required
+def admin_resource_delete(request, pk):
+    resource = Resource.objects.get(pk=pk)
+    resource.delete()
+    messages.success(request, 'Ressource supprimée avec succès.')
+    return redirect('admin_resources')
 
 
 @login_required(login_url='/gestion/login/')

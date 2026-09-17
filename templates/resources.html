@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}Ressources ASFEX Formation Tchad{% endblock %}
-{% block meta_description %}Explorez les articles, tutoriels, conseils pratiques, ressources gratuites et actualités ASFEX pour développer vos compétences.{% endblock %}
+{% block meta_description %}Découvrez nos articles, tutoriels, conseils pratiques, ressources gratuites et actualités ASFEX.{% endblock %}
 {% block meta_keywords %}ressources ASFEX, articles, tutoriels, conseils pratiques, ressources gratuites, actualités{% endblock %}
 
 {% block content %}
@@ -12,7 +12,7 @@
         <i class="fa-solid fa-book-open me-2"></i>📚 Ressources
       </span>
       <h1 class="fw-bold display-5">Ressources ASFEX</h1>
-      <p class="lead text-secondary">Des contenus pratiques, utiles et actionnables pour accompagner votre apprentissage et votre développement professionnel.</p>
+      <p class="lead text-secondary">Des contenus pratiques pour apprendre, appliquer et progresser dans votre contexte professionnel et personnel.</p>
     </div>
 
     <div class="row g-4 mb-5">
@@ -20,60 +20,60 @@
         <div class="card h-100 p-4">
           <div class="feature-icon mb-3"><i class="fa-solid fa-newspaper"></i></div>
           <h3 class="h4">Articles</h3>
-          <p class="text-secondary mb-0">Des analyses, éclairages et recommandations pour mieux comprendre les enjeux du terrain et des compétences professionnelles.</p>
+          <p class="text-secondary mb-0">Des analyses, éclairages et recommandations utiles pour comprendre les enjeux de la performance et des compétences.</p>
         </div>
       </div>
       <div class="col-md-6 col-lg-4">
         <div class="card h-100 p-4">
           <div class="feature-icon mb-3"><i class="fa-solid fa-video"></i></div>
           <h3 class="h4">Tutoriels</h3>
-          <p class="text-secondary mb-0">Des guides pas à pas pour apprendre, appliquer et utiliser les outils et méthodes de travail de manière concrète.</p>
+          <p class="text-secondary mb-0">Des guides pas à pas pour apprendre à utiliser les outils, méthodes et bonnes pratiques du terrain.</p>
         </div>
       </div>
       <div class="col-md-6 col-lg-4">
         <div class="card h-100 p-4">
           <div class="feature-icon mb-3"><i class="fa-solid fa-lightbulb"></i></div>
           <h3 class="h4">Conseils pratiques</h3>
-          <p class="text-secondary mb-0">Des astuces, bonnes pratiques et recommandations concrètes pour gagner en efficacité dans votre travail.</p>
+          <p class="text-secondary mb-0">Des recommandations concrètes pour gagner en efficacité, organisation et qualité dans votre travail.</p>
         </div>
       </div>
       <div class="col-md-6 col-lg-4">
         <div class="card h-100 p-4">
           <div class="feature-icon mb-3"><i class="fa-solid fa-download"></i></div>
           <h3 class="h4">Ressources gratuites</h3>
-          <p class="text-secondary mb-0">Des supports utiles et accessibles pour soutenir l’apprentissage, la préparation et le développement des compétences.</p>
+          <p class="text-secondary mb-0">Des supports et outils accessibles pour renforcer l’apprentissage et la mise en pratique rapide.</p>
         </div>
       </div>
       <div class="col-md-6 col-lg-4">
         <div class="card h-100 p-4">
           <div class="feature-icon mb-3"><i class="fa-solid fa-bullhorn"></i></div>
           <h3 class="h4">Actualités ASFEX</h3>
-          <p class="text-secondary mb-0">Les nouveautés, événements, annonces et contenu d’actualité autour des programmes et de l’expertise ASFEX.</p>
+          <p class="text-secondary mb-0">Les annonces, publications et nouveautés autour de la formation, de l’expertise et du développement des compétences.</p>
         </div>
       </div>
       <div class="col-md-6 col-lg-4">
         <div class="card h-100 p-4">
           <div class="feature-icon mb-3"><i class="fa-solid fa-arrow-up-right-dots"></i></div>
           <h3 class="h4">À retenir</h3>
-          <p class="text-secondary mb-0">Une ressource ici, un levier là, un apprentissage utile pour transformer les compétences en actions concrètes.</p>
+          <p class="text-secondary mb-0">Une ressource utile peut transformer un besoin en action concrète et rentable.</p>
         </div>
       </div>
     </div>
 
     <div class="row g-4">
-      {% for article in articles %}
+      {% for item in resources %}
         <div class="col-md-6 col-lg-4">
           <article class="card h-100 p-4">
-            <span class="badge bg-dark text-gold rounded-pill mb-3">Actualité</span>
-            <h3 class="fw-bold">{{ article.title }}</h3>
-            <p class="text-secondary mb-0">{{ article.excerpt }}</p>
+            <span class="badge bg-dark text-gold rounded-pill mb-3">{{ item.get_resource_type_display }}</span>
+            <h3 class="fw-bold">{{ item.title }}</h3>
+            <p class="text-secondary mb-0">{{ item.excerpt|default:item.content|truncatechars:150 }}</p>
           </article>
         </div>
       {% empty %}
         <div class="col-12">
           <div class="card p-4 text-center">
-            <strong>Les ressources arrivent bientôt.</strong>
-            <p class="text-secondary mb-0">Restez informé sur les prochains contenus ASFEX.</p>
+            <strong>Les ressources arriveront bientôt.</strong>
+            <p class="text-secondary mb-0">Nous préparons de nouveaux contenus utiles pour vous accompagner.</p>
           </div>
         </div>
       {% endfor %}

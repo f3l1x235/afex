@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Article, Category, ContactMessage, Course, CourseRegistration, SEOSettings, TrainingLevel, TrainingRequest
+from .models import Article, Category, ContactMessage, Course, CourseRegistration, Resource, SEOSettings, TrainingLevel, TrainingRequest
 
 
 class CategoryForm(forms.ModelForm):
@@ -72,6 +72,25 @@ class ArticleForm(forms.ModelForm):
         }
         labels = {
             'title': 'Titre de l’article',
+            'excerpt': 'Extrait',
+            'content': 'Contenu',
+        }
+
+
+class ResourceForm(forms.ModelForm):
+    class Meta:
+        model = Resource
+        fields = ['title', 'resource_type', 'excerpt', 'content']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Titre de la ressource'}),
+            'resource_type': forms.Select(attrs={'class': 'form-control'}),
+            'excerpt': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Extrait court'}),
+            'files': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 6, 'placeholder': 'Contenu de la ressource'}),
+        }
+        labels = {
+            'title': 'Titre',
+            'resource_type': 'Type de ressource',
             'excerpt': 'Extrait',
             'content': 'Contenu',
         }

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Article, ContactMessage, Course, CourseRegistration, SEOSettings, TrainingLevel, TrainingRequest
+from .models import Article, ContactMessage, Course, CourseRegistration, Resource, SEOSettings, TrainingLevel, TrainingRequest
 
 
 @admin.register(SEOSettings)
@@ -33,6 +33,14 @@ class ArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_at')
     search_fields = ('title', 'excerpt', 'content')
     list_filter = ('created_at',)
+
+
+@admin.register(Resource)
+class ResourceAdmin(admin.ModelAdmin):
+    list_display = ('title', 'resource_type', 'files', 'created_at')
+    search_fields = ('title', 'excerpt', 'content')
+    list_filter = ('resource_type', 'created_at')
+    readonly_fields = ('created_at',)
 
 
 @admin.register(ContactMessage)
