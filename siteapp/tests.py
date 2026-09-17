@@ -136,6 +136,21 @@ class SeoAndAdminAccessTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'ASFEX Digital')
 
+    def test_site_keywords_include_humanitarian_and_meal_training_terms(self):
+        seo = SEOSettings.get_current()
+        seo.focus_keyword = (
+            'Formation MEAL Tchad, cours suivi et évaluation N\'Djamena, '
+            'gestion de projet humanitaire Tchad, automatisation de rapports statistiques'
+        )
+        seo.save()
+
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Formation MEAL Tchad')
+        self.assertContains(response, 'cours suivi et évaluation N\'Djamena')
+        self.assertContains(response, 'gestion de projet humanitaire Tchad')
+        self.assertContains(response, 'automatisation de rapports statistiques')
+
     def test_admin_dashboard_requires_login(self):
         response = self.client.get('/gestion/')
         self.assertEqual(response.status_code, 302)

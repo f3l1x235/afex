@@ -10,7 +10,7 @@ def create_default_seo(apps, schema_editor):
             'homepage_title': 'ASFEX Formation Tchad | Centre de Formation & Expertise',
             'meta_description': 'ASFEX Formation Tchad, centre de formation et expertise au Tchad pour des formations professionnelles et un accompagnement sur mesure.',
             'canonical_url': 'https://www.asfex-formation-tchad.com/',
-            'focus_keyword': 'formation professionnelle Tchad',
+            'focus_keyword': 'Formation MEAL Tchad, cours suivi et évaluation N\'Djamena, gestion de projet humanitaire Tchad, automatisation de rapports statistiques',
         },
     )
 
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('homepage_title', models.CharField(default='ASFEX Formation Tchad | Centre de Formation & Expertise', max_length=160)),
                 ('meta_description', models.TextField(default='ASFEX Formation Tchad, centre de formation et expertise au Tchad pour des formations professionnelles et un accompagnement sur mesure.')),
                 ('canonical_url', models.URLField(default='https://www.asfex-formation-tchad.com/')),
-                ('focus_keyword', models.CharField(blank=True, default='formation professionnelle Tchad', max_length=120)),
+                ('focus_keyword', models.CharField(blank=True, default='Formation MEAL Tchad, cours suivi et évaluation N\'Djamena, gestion de projet humanitaire Tchad, automatisation de rapports statistiques', max_length=250)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
             ],
             options={
