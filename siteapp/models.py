@@ -106,7 +106,7 @@ class Resource(models.Model):
     resource_type = models.CharField(max_length=20, choices=RESOURCE_TYPES, default='article')
     excerpt = models.TextField(blank=True)
     content = models.TextField()
-    files = models.FileField(upload_to='resources/', blank=True, null=True)
+    src = models.FileField(upload_to='resources/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
