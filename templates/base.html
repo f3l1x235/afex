@@ -171,12 +171,12 @@
         <div class="collapse navbar-collapse" id="mainNav">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-3">
             <li class="nav-item"><a class="nav-link" href="/">Accueil</a></li>
-            <li class="nav-item"><a class="nav-link" href="/a-propos/">À propos</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'expertise' %}">Expertise & Services</a></li>
             <li class="nav-item"><a class="nav-link" href="/formations/">Formations</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'training_calendar' %}">Calendrier</a></li>
             <li class="nav-item"><a class="nav-link" href="/actualites/">Actualités</a></li>
             <li class="nav-item"><a class="nav-link" href="/ressources/">Ressources</a></li>
+            <li class="nav-item"><a class="nav-link" href="/a-propos/">À propos</a></li>
             <li class="nav-item"><a class="nav-link" href="/contact/">Contact</a></li>
             {% if user.is_authenticated and user.is_staff %}
             <li class="nav-item"><a class="btn btn-gold ms-lg-2" href="/gestion/">Espace admin</a></li>
