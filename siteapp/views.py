@@ -212,6 +212,20 @@ def admin_dashboard(request):
     training_requests = TrainingRequest.objects.order_by('-created_at')[:5]
     registrations = CourseRegistration.objects.select_related('course').order_by('-created_at')[:5]
     categories = Category.objects.order_by('name')[:5]
+
+    course_count = Course.objects.count()
+    article_count = Article.objects.count()
+    resource_count = Resource.objects.count()
+    contact_message_count = ContactMessage.objects.count()
+    training_request_count = TrainingRequest.objects.count()
+    registration_count = CourseRegistration.objects.count()
+    total_content = course_count + article_count + resource_count
+    total_interactions = contact_message_count + training_request_count + registration_count
+
+    visibility = min(99, max(35, round(45 + total_content * 6 + resource_count * 4)))
+    engagement = min(99, max(20, round(30 + contact_message_count * 8 + (training_request_count + registration_count) * 10)))
+    growth = min(99, max(0, round((training_request_count + registration_count) * 12 + resource_count * 3)))
+
     context = {
         'page_title': 'Tableau de bord ASFEX',
         'meta_description': 'Espace d’administration ASFEX Formation Tchad pour gérer le site, les contenus et les ressources.',
@@ -222,8 +236,17 @@ def admin_dashboard(request):
         'training_requests': training_requests,
         'registrations': registrations,
         'categories': categories,
-        'training_request_count': TrainingRequest.objects.count(),
-        'registration_count': CourseRegistration.objects.count(),
+        'training_request_count': training_request_count,
+        'registration_count': registration_count,
+        'resource_count': resource_count,
+        'contact_message_count': contact_message_count,
+        'total_content': total_content,
+        'total_interactions': total_interactions,
+        'platform_performance': {
+            'visibility': visibility,
+            'engagement': engagement,
+            'growth': growth,
+        },
     }
     return render(request, 'dashboard.html', context)
 
