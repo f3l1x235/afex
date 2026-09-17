@@ -60,6 +60,18 @@ class SeoAndAdminAccessTests(TestCase):
         self.assertContains(response, 'Mariam')
         self.assertContains(response, 'Question depuis l’accueil')
 
+    def test_home_page_matches_requested_sections(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Proposition de valeur ASFEX')
+        self.assertContains(response, 'Formations à venir')
+        self.assertContains(response, 'Principaux services')
+        self.assertContains(response, 'Publics accompagnés')
+        self.assertContains(response, 'Quelques réalisations')
+        self.assertContains(response, 'Témoignages')
+        self.assertContains(response, 'S’inscrire à une formation')
+        self.assertContains(response, 'Demander un accompagnement')
+
     def test_training_calendar_detail_and_requests_work(self):
         category = Category.objects.create(name='Bureautique')
         course = Course.objects.create(

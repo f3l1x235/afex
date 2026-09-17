@@ -35,7 +35,7 @@ def admin_logout(request):
 
 
 def home(request):
-    courses = Course.objects.prefetch_related('levels').order_by('created_at')[:3]
+    courses = Course.objects.prefetch_related('levels').exclude(status='terminee').order_by('start_date', 'created_at')[:3]
     latest_articles = Article.objects.order_by('-created_at')[:3]
     seo = SEOSettings.get_current()
     contact_form = ContactMessageForm(request.POST or None)
