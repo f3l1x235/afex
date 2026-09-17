@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Connexion admin ASFEX{% endblock %}
 {% block meta_description %}Espace de gestion sécurisé d’ASFEX Formation Tchad.{% endblock %}
@@ -59,7 +60,10 @@
 <section class="login-shell">
   <div class="login-card">
     <div class="login-header">
-      <div class="login-brand">ASFEX</div>
+      <div class="d-flex justify-content-center align-items-center gap-3 mb-2">
+        <img src="{% static 'images/asfex.ico' %}" alt="Logo ASFEX" width="48" height="48" class="rounded-circle border border-2 border-warning bg-light" />
+        <div class="login-brand">ASFEX</div>
+      </div>
       <div class="mt-2 small text-uppercase" style="letter-spacing: 0.12em; opacity: 0.8;">Connexion admin</div>
     </div>
 

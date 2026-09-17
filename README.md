@@ -1,239 +1,219 @@
 # ASFEX Formation Tchad
 
-Plateforme web de formation professionnelle et expertise au Tchad, construite avec Django.
+Plateforme Django de formation professionnelle, expertise et accompagnement au Tchad.
 
-## 📋 Caractéristiques
+## Présentation
 
-- **Formations** : Gestion complète des programmes de formation par catégorie
-- **Catégories** : Organisation des formations par domaine métier
-- **Actualités** : Blog pour publier des contenus et annonces
-- **Gestion des contacts** : Formulaire de contact avec stockage des messages
-- **Interface d'administration** : Tableau de bord complet pour gérer le contenu
-- **Authentification** : Système de rôles et permissions (Superadmin, Gestionnaire, Support)
-- **Responsive** : Design moderne et adapté mobile
-- **SEO** : Optimisation pour les moteurs de recherche
+ASFEX Formation Tchad est une plateforme web destinée à présenter les offres de formation, les services d’expertise, les ressources pédagogiques et les demandes de contact. Le projet inclut également un espace d’administration complet pour gérer les formations, les actualités, les ressources, les messages et les demandes d’inscription.
 
-## 🚀 Installation locale
+## Fonctionnalités principales
 
-### Prérequis
+- Gestion des formations et catégories
+- Liste des formations publiques et vues détaillées
+- Page “À propos”, “Expertise”, “Contact”, “Ressources”
+- Gestion des actualités / articles
+- Gestion des ressources avec type et fichier joint
+- Tableau de bord d’administration avec indicateurs de performance
+- Formulaires publics pour contact, devis et inscription
+- SEO global et métadonnées par page
+- Interface admin personnalisée avec thème ASFEX
+- Favicon personnalisé
+
+## Stack technique
+
+- Python 3.13
+- Django 6.1
+- SQLite par défaut pour le développement
+- MySQL pour la production
+- Bootstrap 5
+- HTML / CSS / JavaScript
+
+## Structure du projet
+
+```text
+asfex_2/
+├── asfex/
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── asgi.py
+├── siteapp/
+│   ├── admin.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── views.py
+│   ├── urls.py
+│   ├── tests.py
+│   └── migrations/
+├── templates/
+│   ├── admin/
+│   ├── includes/
+│   ├── base.html
+│   ├── home.html
+│   ├── about.html
+│   ├── courses.html
+│   ├── course_detail.html
+│   ├── training_calendar.html
+│   ├── training_request.html
+│   ├── contact.html
+│   ├── articles.html
+│   ├── resources.html
+│   └── dashboard.html
+├── static/
+│   └── images/
+│       └── asfex.ico
+├── media/
+├── .env
+├── db.sqlite3
+├── manage.py
+├── requirements.txt
+├── README.md
+└── DEPLOYMENT.md
+```
+
+## Prérequis
+
 - Python 3.10+
 - pip
-- MySQL (ou SQLite pour le développement)
+- Git
+- Optionnel : MySQL pour la production
 
-### 1. Cloner le repository
+## Installation locale
+
+### 1. Cloner le projet
+
 ```bash
-git clone https://github.com/votre-username/asfex_2.git
+git clone <url-du-repository>
 cd asfex_2
 ```
 
 ### 2. Créer un environnement virtuel
+
 ```bash
 python -m venv venv
-source venv/bin/activate  # Sur Windows: venv\Scripts\activate
+```
+
+Sur Windows :
+
+```bash
+venv\Scripts\activate
+```
+
+Sur Linux / macOS :
+
+```bash
+source venv/bin/activate
 ```
 
 ### 3. Installer les dépendances
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configurer les variables d'environnement
-```bash
-cp .env.example .env
-# Éditer .env avec vos paramètres locaux
+### 4. Configurer les variables d’environnement
+
+Un fichier `.env` est déjà présent dans le projet. Pour le développement local, la configuration par défaut utilise SQLite.
+
+Exemple de configuration locale :
+
+```env
+DJANGO_ENV=development
+DEBUG=True
+SECRET_KEY=dev-secret-key-change-me
+ALLOWED_HOSTS=localhost,127.0.0.1
+CSRF_TRUSTED_ORIGINS=http://localhost:8000,http://127.0.0.1:8000
+DB_ENGINE=django.db.backends.sqlite3
+DB_NAME=asfex
+DB_USER=
+DB_PASSWORD=
+DB_HOST=localhost
+DB_PORT=3306
 ```
 
-Pour le développement local, gardez :
-- `DJANGO_ENV=development`
-- `DEBUG=True`
-- `DB_ENGINE=django.db.backends.sqlite3` (par défaut)
+Pour la production, utiliser MySQL avec les variables suivantes :
+
+```env
+DJANGO_ENV=production
+DEBUG=False
+DB_ENGINE=mysql
+DB_NAME=asfex
+DB_USER=asfex_user
+DB_PASSWORD=votre_mot_de_passe
+DB_HOST=localhost
+DB_PORT=3306
+```
 
 ### 5. Appliquer les migrations
+
 ```bash
 python manage.py migrate
 ```
 
-### 6. Créer un compte admin
+### 6. Créer un superadmin
+
 ```bash
 python manage.py createsuperuser
 ```
 
-### 7. Lancer le serveur de développement
+### 7. Lancer le site
+
 ```bash
 python manage.py runserver
 ```
 
-Accédez à : http://localhost:8000
+Le projet est ensuite accessible sur :
 
-## 📚 Structure du projet
-
-```
-asfex_2/
-├── asfex/              # Paramètres Django
-│   ├── settings.py     # Configuration (base de données, applications, sécurité)
-│   ├── urls.py         # Routage URL principal
-│   ├── wsgi.py         # Point d'entrée WSGI
-│   └── asgi.py         # Point d'entrée ASGI
-├── siteapp/            # Application Django
-│   ├── models.py       # Modèles (Category, Course, Article, ContactMessage)
-│   ├── views.py        # Vues et logique métier
-│   ├── forms.py        # Formulaires Django
-│   ├── urls.py         # Routage de l'application
-│   └── migrations/     # Migrations de base de données
-├── templates/          # Templates HTML
-│   ├── admin/          # Interface de gestion
-│   ├── base.html       # Template de base
-│   ├── home.html       # Accueil
-│   ├── courses.html    # Formations
-│   └── ...
-├── static/             # Fichiers statiques (CSS, JS, images)
-├── .env.example        # Exemple de configuration
-├── .gitignore          # Fichiers à ignorer par git
-├── manage.py           # CLI Django
-└── requirements.txt    # Dépendances Python
+```text
+http://localhost:8000
 ```
 
-## 🔧 Configuration
+## Accès administrateur
 
-### Variables d'environnement importantes
-
-**Développement local :**
-```
-DJANGO_ENV=development
-DEBUG=True
-SECRET_KEY=dev-key
-ALLOWED_HOSTS=localhost,127.0.0.1
+```text
+http://localhost:8000/gestion/login/
 ```
 
-**Production :**
-```
-DJANGO_ENV=production
-DEBUG=False
-SECRET_KEY=<clé aléatoire sécurisée>
-ALLOWED_HOSTS=exemple.com,www.exemple.com
-CSRF_TRUSTED_ORIGINS=https://exemple.com,https://www.exemple.com
-DB_NAME=asfex
-DB_USER=user
-DB_PASSWORD=password
-DB_HOST=localhost
-EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-EMAIL_HOST=smtp.example.com
-EMAIL_HOST_USER=contact@example.com
-EMAIL_HOST_PASSWORD=password
-```
+## Commandes utiles
 
-## 📱 Utilisateurs et rôles
+### Vérification Django
 
-### Rôles disponibles
-- **Superadmin** : Accès complet + gestion des comptes et rôles
-- **Gestionnaire** : Gestion du contenu (formations, actualités)
-- **Support** : Accès en lecture aux messages
-
-### Connexion admin
-Accédez à : http://localhost:8000/gestion/login/
-
-## ✅ Tests
-
-Exécuter les tests :
 ```bash
-python manage.py test
+python manage.py check
 ```
 
-Tests disponibles :
-- Vérification des métadonnées SEO
-- Formulaires de contact
-- Authentification et autorisations
-- Gestion du contenu (CRUD)
-- Gestion des rôles
+### Collecte des fichiers statiques
 
-## 🌐 Déploiement
-
-### Préparation pour la production
-
-1. Générer une clé secrète forte :
-```bash
-python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
-```
-
-2. Créer un fichier `.env` avec la config production
-
-3. Collecter les fichiers statiques :
 ```bash
 python manage.py collectstatic --noinput
 ```
 
-4. Appliquer les migrations :
-```bash
-python manage.py migrate
-```
-
-### Avec Gunicorn + Nginx
+### Lancer les tests
 
 ```bash
-pip install gunicorn
-gunicorn asfex.wsgi:application --bind 0.0.0.0:8000
+python manage.py test
 ```
 
-### Avec Docker
+## Déploiement
 
-Créer un `Dockerfile` et `docker-compose.yml` pour faciliter le déploiement.
+Voir le fichier [DEPLOYMENT.md](DEPLOYMENT.md) pour la procédure complète de mise en production.
 
-### Variables d'environnement production
+## Sécurité
 
-Définir toutes les variables du `.env.example` avec les vraies valeurs de production.
+- Clé secrète stockée dans le fichier `.env`
+- Cookies sécurisés en production
+- CSRF activé
+- HTTPS recommandé en production
+- Variables sensibles non commitées
 
-## 🔐 Sécurité
+## Contribution
 
-- Les mots de passe ne sont jamais commités (`.env` dans `.gitignore`)
-- HTTPS obligatoire en production
-- Cookies sécurisés et CSRF protégé
-- HSTS et X-Frame-Options activés en production
-- Base de données MySQL avec charset utf8mb4
+Le projet est en cours d’évolution. Les changements doivent rester cohérents entre les modèles, vues, formulaires et templates.
 
-## 📞 Fonctionnalités principales
+## Licence
 
-### 📚 Gestion des formations
-- Créer, modifier, supprimer des formations
-- Organiser par catégorie
-- Définir durée et prix
-
-### 🏷️ Catégories
-- Créer les domaines métier
-- Associer les formations aux catégories
-- Vue agrégée des formations par catégorie
-
-### 📰 Actualités
-- Publier des articles et annonces
-- Gestion des contenus éditoriaux
-- Archives des articles
-
-### 💬 Gestion des contacts
-- Réception des demandes de formation
-- Stockage des messages
-- Historique des demandes
-
-### 👥 Gestion des comptes
-- Création et suppression de comptes administrateur
-- Attribution de rôles et permissions
-- Gestion des groupes
-
-## 📝 Notes de développement
-
-- Language : Python 3.13
-- Framework : Django 6.1
-- ORM : Django ORM
-- Base de données : MySQL / SQLite
-- Serveur d'application : Gunicorn
-- Serveur web : Nginx (recommandé)
-
-## 📄 Licence
-
-Ce projet est propriétaire à ASFEX Formation Tchad.
-
-## 👨‍💼 Support
-
-Pour toute question ou problème, contacter : contact@asfex-formation-tchad.com
+Projet propriétaire ASFEX Formation Tchad.
 
 ---
 
-**Dernière mise à jour** : Septembre 2026
+Dernière mise à jour : Septembre 2026

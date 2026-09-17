@@ -237,7 +237,11 @@
 {% endblock %}
 
 {% block branding %}
-<h1 id="site-name"><span style="color: var(--gold); font-weight: 800;">ASFEX</span> Administration</h1>
+<h1 id="site-name" class="d-flex align-items-center gap-2 mb-0">
+  <img src="{% static 'images/asfex.ico' %}" alt="Logo ASFEX" width="28" height="28" class="rounded-circle border border-2 border-warning" />
+  <span style="color: var(--gold); font-weight: 800;">ASFEX</span>
+  <span class="text-white">Administration</span>
+</h1>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
