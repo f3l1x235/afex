@@ -83,13 +83,14 @@ WSGI_APPLICATION = 'asfex.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
+DB_ENGINE = os.getenv('DB_ENGINE', 'django.db.backends.sqlite3').strip()
 DB_NAME = os.getenv('DB_NAME')
 DB_USER = os.getenv('DB_USER')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_HOST = os.getenv('DB_HOST', 'localhost')
 DB_PORT = os.getenv('DB_PORT', '3306')
 
-if DB_NAME and DB_USER and DB_PASSWORD:
+if DB_ENGINE.lower() in {'mysql', 'django.db.backends.mysql'} and DB_NAME and DB_USER and DB_PASSWORD:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',

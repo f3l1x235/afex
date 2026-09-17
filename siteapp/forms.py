@@ -80,7 +80,9 @@ class ArticleForm(forms.ModelForm):
 class ResourceForm(forms.ModelForm):
     class Meta:
         model = Resource
-        fields = ['title', 'resource_type', 'excerpt', 'content', 'files']
+        fields = ['title', 'resource_type', 'excerpt', 'content']
+        if 'files' in [field.name for field in Resource._meta.get_fields()]:
+            fields.append('files')
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Titre de la ressource'}),
             'resource_type': forms.Select(attrs={'class': 'form-control'}),
