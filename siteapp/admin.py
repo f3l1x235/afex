@@ -38,7 +38,7 @@ class ArticleAdmin(admin.ModelAdmin):
 @admin.register(Resource)
 class ResourceAdmin(admin.ModelAdmin):
     list_display = ('title', 'resource_type', 'files', 'created_at')
-    search_fields = ('title', 'excerpt', 'content')
+    search_fields = ('title', 'excerpt', 'content', 'files')
     list_filter = ('resource_type', 'created_at')
     readonly_fields = ('created_at',)
 
