@@ -1,79 +1,72 @@
 {% extends 'admin/base_admin.html' %}
 
-{% block title %}Gestion des partenaires{% endblock %}
-{% block content %}
-<div class="container mt-4">
-    <h1 class="mb-4">Gestion des partenaires</h1>
+{% block admin_title %}Gestion des Partenaires{% endblock %}
 
-    <div class="mb-3">
-        <a href="{% url 'admin:siteapp_partner_new' %}" class="btn btn-primary">Ajouter un partenaire</a>
+{% block admin_content %}
+<div class="row g-4 mb-4">
+  <div class="col-md-6">
+    <div class="page-stat">
+      <div class="stat-label mb-2">Total</div>
+      <div class="stat-number">{{ partners|length }}</div>
+      <div class="text-secondary mt-2">partenaires enregistrés</div>
     </div>
+  </div>
+  <div class="col-md-6">
+    <div class="page-stat">
+      <div class="stat-label mb-2">Action</div>
+      <div class="stat-number"><i class="fa-solid fa-plus"></i></div>
+      <div class="text-secondary mt-2">ajouter un partenaire</div>
+    </div>
+  </div>
+</div>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Logo</th>
-                <th>Site Web</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for partner in partners %}
-            <tr>
-                <td>{{ partner.name }}</td>
-                <td><img src="{{ partner.logo.url }}" alt="{{ partner.name }}" style="max-height: 50px;"></td>
-                <td><a href="{{ partner.website }}" target="_blank">{{ partner.website }}</a></td>
-                <td>
-                    <a href="{% url 'admin:siteapp_partner_edit' partner.id %}" class="btn btn-sm btn-warning">Modifier</a>
-                    <a href="{% url 'admin:siteapp_partner_delete' partner.id %}" class="btn btn-sm btn-danger">Supprimer</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4" class="text-center">Aucun partenaire trouvé.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
+<div class="admin-panel p-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+      <h3 class="mb-1 text-gold"><i class="fa-solid fa-handshake me-2"></i>Partenaires</h3>
+      <p class="text-secondary mb-0">Gérez les partenaires et leurs informations.</p>
+    </div>
+    <a href="/gestion/partenaires/nouveau/" class="btn btn-gold"><i class="fa-solid fa-plus me-2"></i>Ajouter un partenaire</a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-admin align-middle">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Catégorie</th>
+          <th>Niveaux</th>
+          <th>Date</th>
+          <th>Durée</th>
+          <th>Modalité</th>
+          <th>Statut</th>
+          <th>Tarif</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for partner in partners %}
+        <tr>
+          <td class="fw-bold">{{ partner.name }}</td>
+          <td>{{ partner.category }}</td>
+          <td>{% for level in partner.levels.all %}<span class="badge bg-light text-dark border me-1">{{ level.name }}</span>{% empty %}<span class="text-secondary">Non défini</span>{% endfor %}</td>
+          <td>{% if partner.start_date %}{{ partner.start_date|date:'d/m/Y' }}{% if partner.end_date %} - {{ partner.end_date|date:'d/m/Y' }}{% endif %}{% else %}À définir{% endif %}</td>
+          <td>{{ partner.duration }}</td>
+          <td>{{ partner.get_modality_display }}</td>
+          <td><span class="badge {% if partner.status == 'inscriptions' %}bg-success{% elif partner.status == 'complet' %}bg-danger{% else %}bg-secondary{% endif %}">{{ partner.get_status_display }}</span></td>
+          <td>{% if partner.price %}{{ partner.price|floatformat:0 }} F{% else %}Sur devis{% endif %}</td>
+          <td class="text-end">
+            <a href="/gestion/partenaires/{{ partner.pk }}/modifier/" class="btn btn-sm btn-outline-dark me-2"><i class="fa-solid fa-pen"></i></a>
+            <form method="post" action="/gestion/partenaires/{{ partner.pk }}/supprimer/" class="d-inline">{% csrf_token %}<button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer ce partenaire ?')"><i class="fa-solid fa-trash"></i></button></form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="9" class="text-center text-secondary py-4">Aucun partenaire créé pour le moment.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
-
-    <!-- Pagination -->
-    {% if is_paginated %}
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-            {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Précédent">
-                    &laquo; Précédent
-                </a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <span class="page-link">&laquo; Précédent</span>
-            </li>
-            {% endif %}
-
-            {% for num in paginator.page_range %}
-                {% if page_obj.number == num %}
-                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-                {% endif %}
-            {% endfor %}
-            
-            {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Suivant">
-                    Suivant &raquo;
-                </a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <span class="page-link">Suivant &raquo;</span>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% endif %}
+  </div>
 </div>
 {% endblock %}
