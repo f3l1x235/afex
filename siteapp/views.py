@@ -268,7 +268,7 @@ def admin_categories(request):
 @staff_member_required
 def admin_partners_new(request):
     if request.method == 'POST':
-        form = PartnerForm(request.POST)
+        form = PartnerForm(request.POST, files=request.FILES)
 
         if not form.is_valid():
             messages.error(request, 'Veuillez corriger les erreurs dans le formulaire.')
@@ -292,7 +292,7 @@ def admin_partners_new(request):
 def Admin_partners_edit(request, pk):
     partner = get_object_or_404(Partner, pk=pk)
     if request.method == 'POST':
-        form = PartnerForm(request.POST, instance=partner)
+        form = PartnerForm(request.POST, instance=partner, files=request.FILES)
         if not form.is_valid():
             messages.error(request, 'Veuillez corriger les erreurs dans le formulaire.')
         else:
@@ -300,7 +300,7 @@ def Admin_partners_edit(request, pk):
             messages.success(request, 'Partenaire mis à jour avec succès.')
             return redirect('admin_partners')
     else:
-        form = PartnerForm(instance=partner)
+        form = PartnerForm(instance=partner, files=request.FILES)
 
     context = {
         'page_title': 'Modifier un partenaire',
