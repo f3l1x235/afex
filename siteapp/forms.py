@@ -21,7 +21,7 @@ class PartnerForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nom du partenaire'}),
             'logo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
-            'website': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Site web du partenaire'}),
+            'website': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Site web du partenaire'}),
         }
         labels = {
             'name': 'Nom du partenaire',

@@ -16,7 +16,7 @@ class Category(models.Model):
 class Partner(models.Model):
     name = models.CharField(max_length=150)
     logo = models.ImageField(upload_to='partners/')
-    website = models.URLField(blank=True, null=True)
+    website = models.CharField(max_length=200, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
