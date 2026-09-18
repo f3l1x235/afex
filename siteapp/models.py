@@ -90,7 +90,7 @@ class Course(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='bientot')
     details = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    partners = models.ManyToManyField(Partner, blank=True, related_name='formations')
+    partners = models.ManyToManyField(Partner, blank=True, null=True, related_name='formations')
     def __str__(self):
         return self.name
 
