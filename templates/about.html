@@ -63,7 +63,7 @@
         {% for partner in partners %}
         <div class="col-md-4">
           <div class="card h-100 p-4">
-            {%% if partner.logo %}
+            {% if partner.logo %}
             <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="img-fluid mb-3">
             {% else %}
             <img src="{% static 'images/defaultPartners.png' %}" alt="{{ partner.name }}" class="img-fluid mb-3">
