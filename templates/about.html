@@ -71,9 +71,6 @@
             <img src="{% static 'images/defaultPartners.png' %}" alt="{{ partner.name }}" class="img-fluid mb-3">
             {% endif %}
             <h3 class="h5">{{ partner.name }}</h3>
-            {% if partner.website %}
-            <a href="{{ partner.website }}" target="_blank" class="btn btn-outline-primary">Visiter le site</a>
-            {% endif %}
           </div>
         </div>
         {% endfor %}
