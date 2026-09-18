@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Article, ContactMessage, Course, CourseRegistration, Resource, SEOSettings, TrainingLevel, TrainingRequest
+from .models import Article, ContactMessage, Course, CourseRegistration, Partner, Resource, SEOSettings, TrainingLevel, TrainingRequest
 
 
 @admin.register(SEOSettings)
@@ -47,6 +47,14 @@ class ResourceAdmin(admin.ModelAdmin):
         if obj.files and obj.files.name:
             return obj.files.name
         return '-'
+
+@admin.register(Partner)
+class PartnerAdmin(admin.ModelAdmin):
+    list_display = ('name', 'website', 'created_at')
+    search_fields = ('name', 'website')
+    list_filter = ('created_at',)
+    readonly_fields = ('created_at',)
+    
 
 
 @admin.register(ContactMessage)
