@@ -13,6 +13,18 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+class Partner(models.Model):
+    name = models.CharField(max_length=150)
+    logo = models.ImageField(upload_to='partners/')
+    website = models.URLField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
 
 class SEOSettings(models.Model):
     site_name = models.CharField(max_length=120, default='ASFEX Formation Tchad')
@@ -78,7 +90,7 @@ class Course(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='bientot')
     details = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+    partners = models.ManyToManyField(Partner, blank=True, related_name='formations')
     def __str__(self):
         return self.name
 

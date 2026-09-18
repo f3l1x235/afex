@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import ArticleForm, CategoryForm, ContactMessageForm, CourseForm, CourseRegistrationForm, ResourceForm, SEOForm, TrainingRequestForm
-from .models import Article, Category, ContactMessage, Course, CourseRegistration, Resource, SEOSettings, TrainingRequest
+from .models import Article, Category, ContactMessage, Course, CourseRegistration, Partner, Resource, SEOSettings, TrainingRequest
 
 
 def custom_admin_login(request):
@@ -54,12 +54,13 @@ def home(request):
     }
     return render(request, 'home.html', context)
 
-
 def about(request):
+    partners = Partner.objects.order_by('name')
     context = {
         'page_title': 'À propos d’ASFEX Formation Tchad',
         'meta_description': 'Découvrez l’histoire, la mission, la vision et la philosophie d’ASFEX Formation Tchad au Tchad.',
         'meta_keywords': 'ASFEX Tchad, mission, vision, expertise, formation professionnelle',
+        'partners': partners,
     }
     return render(request, 'about.html', context)
 
@@ -261,6 +262,77 @@ def admin_categories(request):
         'categories': categories,
     }
     return render(request, 'admin/categories.html', context)
+
+
+@login_required(login_url='/gestion/login/')
+@staff_member_required
+def admin_partners_new(request):
+    if request.method == 'POST':
+        name = request.POST.get('name', '').strip()
+        website = request.POST.get('website', '').strip()
+        logo = request.FILES.get('logo')
+
+        if not name:
+            messages.error(request, 'Le nom du partenaire est obligatoire.')
+        else:
+            Partner.objects.create(name=name, website=website, logo=logo)
+            messages.success(request, 'Partenaire ajouté avec succès.')
+            return redirect('admin_partners')
+
+    context = {
+        'page_title': 'Ajouter un partenaire',
+        'form_title': 'Ajouter un partenaire',
+    }
+    return render(request, 'admin/form_editor.html', context)
+
+
+@login_required(login_url='/gestion/login/')
+@staff_member_required
+def Admin_partners_edit(request, pk):
+    partner = get_object_or_404(Partner, pk=pk)
+    if request.method == 'POST':
+        name = request.POST.get('name', '').strip()
+        website = request.POST.get('website', '').strip()
+        logo = request.FILES.get('logo')
+
+        if not name:
+            messages.error(request, 'Le nom du partenaire est obligatoire.')
+        else:
+            partner.name = name
+            partner.website = website
+            if logo:
+                partner.logo = logo
+            partner.save()
+            messages.success(request, 'Partenaire mis à jour avec succès.')
+            return redirect('admin_partners')
+
+    context = {
+        'page_title': 'Modifier un partenaire',
+        'form_title': 'Modifier un partenaire',
+        'partner': partner,
+    }
+    return render(request, 'admin/form_editor.html', context)
+
+
+@login_required(login_url='/gestion/login/')
+@staff_member_required
+def Admin_partners_delete(request, pk):
+    partner = get_object_or_404(Partner, pk=pk)
+    partner.delete()
+    messages.success(request, 'Partenaire supprimé avec succès.')
+    return redirect('admin_partners')
+
+
+@login_required(login_url='/gestion/login/')
+@staff_member_required
+def admin_partners(request):
+    partners = Partner.objects.order_by('name')
+    context = {
+        'page_title': 'Gestion des partenaires',
+        'meta_description': 'Gérez les partenaires ASFEX depuis l’espace d’administration.',
+        'partners': partners,
+    }
+    return render(request, 'admin/partners.html', context)
 
 
 @login_required(login_url='/gestion/login/')

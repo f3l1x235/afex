@@ -46,4 +46,9 @@ urlpatterns = [
     path('gestion/seo/', views.admin_seo, name='admin_seo'),
     path('robots.txt', views.robots_txt, name='robots_txt'),
     path('sitemap.xml', views.sitemap_xml, name='sitemap_xml'),
+    path('gestion/partenaires/', views.admin_partners, name='admin_partners'),
+    path('gestion/partenaires/nouveau/', views.admin_partner_new, name='admin_partner_new'),
+    path('gestion/partenaires/<int:pk>/modifier/', views.admin_partner_edit, name='admin_partner_edit'),
+    path('gestion/partenaires/<int:pk>/supprimer/', views.admin_partner_delete, name='admin_partner_delete'),
+    
 ]

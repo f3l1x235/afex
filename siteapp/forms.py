@@ -1,7 +1,6 @@
 from django import forms
 
-from .models import Article, Category, ContactMessage, Course, CourseRegistration, Resource, SEOSettings, TrainingLevel, TrainingRequest
-
+from .models import *
 
 class CategoryForm(forms.ModelForm):
     class Meta:
@@ -12,6 +11,22 @@ class CategoryForm(forms.ModelForm):
         }
         labels = {
             'name': 'Nom de la catégorie',
+        }
+
+
+class PartnerForm(forms.ModelForm):
+    class Meta:
+        model = Partner
+        fields = ['name', 'logo', 'website']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nom du partenaire'}),
+            'logo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'website': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Site web du partenaire'}),
+        }
+        labels = {
+            'name': 'Nom du partenaire',
+            'logo': 'Logo',
+            'website': 'Site web',
         }
 
 
@@ -36,6 +51,7 @@ class CourseForm(forms.ModelForm):
             'start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'end_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'modality': forms.Select(attrs={'class': 'form-control'}),
+            'partners': forms.SelectMultiple(attrs={'class': 'form-control', 'size': 4}),
             'status': forms.Select(attrs={'class': 'form-control'}),
             'details': forms.Textarea(attrs={'class': 'form-control', 'rows': 6, 'placeholder': 'Programme détaillé et objectifs'}),
         }
@@ -49,6 +65,7 @@ class CourseForm(forms.ModelForm):
             'start_date': 'Date de début',
             'end_date': 'Date de fin',
             'modality': 'Modalité',
+            'partners': 'Partenaires',
             'status': 'Statut',
             'details': 'Détails de la formation',
         }

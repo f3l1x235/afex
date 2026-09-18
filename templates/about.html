@@ -58,7 +58,24 @@
 
     <div class="card p-5 mb-5">
       <h2 class="fw-bold mb-3 text-gold">Nos partenaires</h2>
+      {% if partners %}
+      <div class="row g-4">
+        {% for partner in partners %}
+        <div class="col-md-4">
+          <div class="card h-100 p-4">
+            <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="img-fluid mb-3">
+            <h3 class="h5">{{ partner.name }}</h3>
+            {% if partner.website %}
+            <a href="{{ partner.website }}" target="_blank" class="btn btn-outline-primary">Visiter le site</a>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if not partners %}
       <p class="mb-0 text-secondary">ASFEX s’appuie sur des partenariats solides avec des institutions, organismes et acteurs engagés dans le développement des compétences, la qualité et l’expertise locale.</p>
+      {% endif %}
     </div>
   </div>
 </section>
