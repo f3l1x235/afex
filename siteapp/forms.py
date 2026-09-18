@@ -78,6 +78,14 @@ class CourseForm(forms.ModelForm):
             self.fields[field_name].required = False
 
 
+class CourseSoonForm(CourseForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['status'].widget = forms.HiddenInput()
+        self.fields['status'].initial = 'bientot'
+        self.initial['status'] = 'bientot'
+
+
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article

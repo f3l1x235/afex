@@ -53,7 +53,7 @@
           <td>{% if course.start_date %}{{ course.start_date|date:'d/m/Y' }}{% if course.end_date %} - {{ course.end_date|date:'d/m/Y' }}{% endif %}{% else %}À définir{% endif %}</td>
           <td>{{ course.duration }}</td>
           <td>{{ course.get_modality_display }}</td>
-          <td><span class="badge {% if course.status == 'inscriptions' %}bg-success{% elif course.status == 'complet' %}bg-danger{% else %}bg-secondary{% endif %}">{{ course.get_status_display }}</span></td>
+          <td><span class="badge {% if course.status == 'inscriptions' %}bg-success{% elif course.status == 'complet' %}bg-danger{% elif course.status == 'bientot' %}bg-warning text-dark{% else %}bg-secondary{% endif %}">{{ course.get_status_display }}</span></td>
           <td>{% if course.price %}{{ course.price|floatformat:0 }} F{% else %}Sur devis{% endif %}</td>
           <td class="text-end">
             <a href="/gestion/formations/{{ course.pk }}/modifier/" class="btn btn-sm btn-outline-dark me-2"><i class="fa-solid fa-pen"></i></a>
@@ -63,6 +63,70 @@
         {% empty %}
         <tr>
           <td colspan="9" class="text-center text-secondary py-4">Aucune formation créée pour le moment.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="admin-panel p-4 mt-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+      <h3 class="mb-1 text-gold"><i class="fa-solid fa-clock me-2"></i>Formations bientôt disponibles</h3>
+      <p class="text-secondary mb-0">Ajoutez et suivez les programmes encore en préparation.</p>
+    </div>
+  </div>
+
+  <form method="post" action="{% url 'admin_formations' %}" class="row g-3 mb-4">
+    {% csrf_token %}
+    <input type="hidden" name="upcoming_course" value="1">
+    {{ upcoming_form.status }}
+    {% for field in upcoming_form %}
+      {% if field.name != 'status' %}
+      <div class="col-md-6">
+        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+        {{ field }}
+        {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+        {% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+      </div>
+      {% endif %}
+    {% endfor %}
+    <div class="col-12 text-end">
+      <button type="submit" class="btn btn-gold"><i class="fa-solid fa-plus me-2"></i>Ajouter une formation bientôt disponible</button>
+    </div>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table table-admin align-middle">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Catégorie</th>
+          <th>Niveaux</th>
+          <th>Date</th>
+          <th>Durée</th>
+          <th>Modalité</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for course in upcoming_courses %}
+        <tr>
+          <td class="fw-bold">{{ course.name }}</td>
+          <td>{{ course.category }}</td>
+          <td>{% for level in course.levels.all %}<span class="badge bg-light text-dark border me-1">{{ level.name }}</span>{% empty %}<span class="text-secondary">Non défini</span>{% endfor %}</td>
+          <td>{% if course.start_date %}{{ course.start_date|date:'d/m/Y' }}{% if course.end_date %} - {{ course.end_date|date:'d/m/Y' }}{% endif %}{% else %}À venir{% endif %}</td>
+          <td>{{ course.duration }}</td>
+          <td>{{ course.get_modality_display }}</td>
+          <td class="text-end">
+            <a href="/gestion/formations/{{ course.pk }}/modifier/" class="btn btn-sm btn-outline-dark me-2"><i class="fa-solid fa-pen"></i></a>
+            <form method="post" action="/gestion/formations/{{ course.pk }}/supprimer/" class="d-inline">{% csrf_token %}<button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer cette formation bientôt disponible ?')"><i class="fa-solid fa-trash"></i></button></form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center text-secondary py-4">Aucune formation bientôt disponible pour le moment.</td>
         </tr>
         {% endfor %}
       </tbody>

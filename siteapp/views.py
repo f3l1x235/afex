@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import ArticleForm, CategoryForm, ContactMessageForm, CourseForm, CourseRegistrationForm, PartnerForm, ResourceForm, SEOForm, TrainingRequestForm
+from .forms import ArticleForm, CategoryForm, ContactMessageForm, CourseForm, CourseRegistrationForm, CourseSoonForm, PartnerForm, ResourceForm, SEOForm, TrainingRequestForm
 from .models import Article, Category, ContactMessage, Course, CourseRegistration, Partner, Resource, SEOSettings, TrainingRequest
 
 
@@ -385,10 +385,23 @@ def admin_category_delete(request, pk):
 @staff_member_required
 def admin_formations(request):
     courses = Course.objects.prefetch_related('levels').order_by('-created_at')
+    upcoming_courses = Course.objects.filter(status='bientot').prefetch_related('levels').order_by('-created_at')
+    upcoming_form = CourseSoonForm(initial={'status': 'bientot'})
+
+    if request.method == 'POST' and 'upcoming_course' in request.POST:
+        upcoming_form = CourseSoonForm(request.POST)
+        if upcoming_form.is_valid():
+            upcoming_form.save()
+            messages.success(request, 'Formation bientôt disponible ajoutée avec succès.')
+            return redirect('admin_formations')
+        messages.error(request, 'Veuillez corriger les erreurs dans le formulaire des formations bientôt disponibles.')
+
     context = {
         'page_title': 'Gestion des formations',
         'meta_description': 'Gérez les formations ASFEX depuis l’espace d’administration.',
         'courses': courses,
+        'upcoming_courses': upcoming_courses,
+        'upcoming_form': upcoming_form,
     }
     return render(request, 'admin/formations.html', context)
 

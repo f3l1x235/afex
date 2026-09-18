@@ -306,6 +306,26 @@ class SeoAndAdminAccessTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(1, ContactMessage.objects.filter(name='Brahim').count())
 
+    def test_admin_formations_page_has_upcoming_course_section(self):
+        User = get_user_model()
+        user = User.objects.create_user(username='upcomingadmin', password='secret123')
+        user.is_staff = True
+        user.is_superuser = True
+        user.save()
+        self.client.force_login(user)
+
+        category = Category.objects.create(name='Business Intelligence')
+        Course.objects.create(
+            name='Power BI', category=category,
+            summary='Analysez vos données.', duration='3 jours', status='bientot'
+        )
+
+        response = self.client.get('/gestion/formations/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Formations bientôt disponibles')
+        self.assertContains(response, 'name="status"')
+        self.assertContains(response, 'Power BI')
+
     def test_admin_can_view_training_requests_and_registrations(self):
         User = get_user_model()
         user = User.objects.create_user(username='leadsadmin', password='secret123')
