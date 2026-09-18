@@ -73,7 +73,6 @@ class Course(models.Model):
     ]
     STATUS_CHOICES = [
         ('inscriptions', 'Inscriptions ouvertes'),
-        ('bientot', 'Bientôt disponible'),
         ('complet', 'Complet'),
         ('terminee', 'Formation terminée'),
     ]
