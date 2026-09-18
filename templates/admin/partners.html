@@ -33,28 +33,26 @@
     <table class="table table-admin align-middle">
       <thead>
         <tr>
-          <th>Nom</th>
-          <th>Catégorie</th>
-          <th>Niveaux</th>
-          <th>Date</th>
-          <th>Durée</th>
-          <th>Modalité</th>
-          <th>Statut</th>
-          <th>Tarif</th>
+          <th>Logo</th>
+          <th>Nom du partenaire</th>
+          <th>Site web</th>
           <th class="text-end">Actions</th>
         </tr>
       </thead>
       <tbody>
         {% for partner in partners %}
         <tr>
+          <td>
+            {% if partner.logo %}
+              <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="img-fluid" style="max-width: 100px;">
+            {% else %}
+              <div class="bg-light border d-flex align-items-center justify-content-center" style="width: 100px; height: 100px;">
+                <i class="fa-solid fa-image text-secondary"></i>
+              </div>
+            {% endif %}
+          </td>
           <td class="fw-bold">{{ partner.name }}</td>
-          <td>{{ partner.category }}</td>
-          <td>{% for level in partner.levels.all %}<span class="badge bg-light text-dark border me-1">{{ level.name }}</span>{% empty %}<span class="text-secondary">Non défini</span>{% endfor %}</td>
-          <td>{% if partner.start_date %}{{ partner.start_date|date:'d/m/Y' }}{% if partner.end_date %} - {{ partner.end_date|date:'d/m/Y' }}{% endif %}{% else %}À définir{% endif %}</td>
-          <td>{{ partner.duration }}</td>
-          <td>{{ partner.get_modality_display }}</td>
-          <td><span class="badge {% if partner.status == 'inscriptions' %}bg-success{% elif partner.status == 'complet' %}bg-danger{% else %}bg-secondary{% endif %}">{{ partner.get_status_display }}</span></td>
-          <td>{% if partner.price %}{{ partner.price|floatformat:0 }} F{% else %}Sur devis{% endif %}</td>
+          <td>{{ partner.website }}</td>
           <td class="text-end">
             <a href="/gestion/partenaires/{{ partner.pk }}/modifier/" class="btn btn-sm btn-outline-dark me-2"><i class="fa-solid fa-pen"></i></a>
             <form method="post" action="/gestion/partenaires/{{ partner.pk }}/supprimer/" class="d-inline">{% csrf_token %}<button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer ce partenaire ?')"><i class="fa-solid fa-trash"></i></button></form>

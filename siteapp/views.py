@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import ArticleForm, CategoryForm, ContactMessageForm, CourseForm, CourseRegistrationForm, ResourceForm, SEOForm, TrainingRequestForm
+from .forms import ArticleForm, CategoryForm, ContactMessageForm, CourseForm, CourseRegistrationForm, PartnerForm, ResourceForm, SEOForm, TrainingRequestForm
 from .models import Article, Category, ContactMessage, Course, CourseRegistration, Partner, Resource, SEOSettings, TrainingRequest
 
 
@@ -268,20 +268,21 @@ def admin_categories(request):
 @staff_member_required
 def admin_partners_new(request):
     if request.method == 'POST':
-        name = request.POST.get('name', '').strip()
-        website = request.POST.get('website', '').strip()
-        logo = request.FILES.get('logo')
+        form = PartnerForm(request.POST)
 
-        if not name:
-            messages.error(request, 'Le nom du partenaire est obligatoire.')
+        if not form.is_valid():
+            messages.error(request, 'Veuillez corriger les erreurs dans le formulaire.')
         else:
-            Partner.objects.create(name=name, website=website, logo=logo)
+            partner = form.save()
             messages.success(request, 'Partenaire ajouté avec succès.')
             return redirect('admin_partners')
+    else:
+        form = PartnerForm()
 
     context = {
         'page_title': 'Ajouter un partenaire',
         'form_title': 'Ajouter un partenaire',
+        'form': form,
     }
     return render(request, 'admin/form_editor.html', context)
 
@@ -291,25 +292,20 @@ def admin_partners_new(request):
 def Admin_partners_edit(request, pk):
     partner = get_object_or_404(Partner, pk=pk)
     if request.method == 'POST':
-        name = request.POST.get('name', '').strip()
-        website = request.POST.get('website', '').strip()
-        logo = request.FILES.get('logo')
-
-        if not name:
-            messages.error(request, 'Le nom du partenaire est obligatoire.')
+       form = PartnerForm(request.POST, instance=partner)
+        if not form.is_valid():
+            messages.error(request, 'Veuillez corriger les erreurs dans le formulaire.')
         else:
-            partner.name = name
-            partner.website = website
-            if logo:
-                partner.logo = logo
-            partner.save()
+            form.save()
             messages.success(request, 'Partenaire mis à jour avec succès.')
             return redirect('admin_partners')
+    else:
+        form = PartnerForm(instance=partner)
 
     context = {
         'page_title': 'Modifier un partenaire',
         'form_title': 'Modifier un partenaire',
-        'partner': partner,
+        'form': form,
     }
     return render(request, 'admin/form_editor.html', context)
 
