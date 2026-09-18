@@ -386,7 +386,7 @@ def admin_category_delete(request, pk):
 def admin_formations(request):
     courses = Course.objects.prefetch_related('levels').order_by('-created_at')
     upcoming_courses = Course.objects.filter(status='bientot').prefetch_related('levels').order_by('-created_at')
-    upcoming_form = CourseSoonForm(initial={'status': 'bientot'})
+    upcoming_form = CourseSoonForm()
 
     if request.method == 'POST' and 'upcoming_course' in request.POST:
         upcoming_form = CourseSoonForm(request.POST)

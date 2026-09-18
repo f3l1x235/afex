@@ -131,16 +131,13 @@
         <form method="post" action="{% url 'admin_formations' %}" class="row g-3 admin-form">
           {% csrf_token %}
           <input type="hidden" name="upcoming_course" value="1">
-          {{ upcoming_form.status }}
           {% for field in upcoming_form %}
-            {% if field.name != 'status' %}
             <div class="col-md-6">
               <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
               {{ field }}
               {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
               {% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
             </div>
-            {% endif %}
           {% endfor %}
           <div class="col-12 text-end mt-3">
             <button type="button" class="btn btn-outline-dark me-2" data-bs-dismiss="modal">Annuler</button>

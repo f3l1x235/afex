@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.test import TestCase
 
+from .forms import CourseSoonForm
 from .models import Article, Category, ContactMessage, Course, CourseRegistration, SEOSettings, TrainingLevel, TrainingRequest
 
 
@@ -323,8 +324,23 @@ class SeoAndAdminAccessTests(TestCase):
         response = self.client.get('/gestion/formations/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Formations bientôt disponibles')
-        self.assertContains(response, 'name="status"')
+        self.assertNotContains(response, 'name="status"')
         self.assertContains(response, 'Power BI')
+
+    def test_course_soon_form_sets_status_to_upcoming(self):
+        category = Category.objects.create(name='IA')
+        form = CourseSoonForm(data={
+            'name': 'Python pour débutants',
+            'category': category.pk,
+            'summary': 'Initiez-vous à Python.',
+            'duration': '2 jours',
+            'modality': 'presentiel',
+        })
+
+        self.assertTrue(form.is_valid(), form.errors)
+        course = form.save()
+        self.assertEqual(course.status, 'bientot')
+        self.assertEqual(course.category, category)
 
     def test_admin_can_view_training_requests_and_registrations(self):
         User = get_user_model()

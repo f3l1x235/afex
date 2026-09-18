@@ -74,16 +74,28 @@ class CourseForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['levels'].queryset = TrainingLevel.objects.all()
         self.fields['levels'].help_text = 'Maintenez Ctrl (Windows) ou Cmd (Mac) pour sélectionner plusieurs niveaux.'
-        for field_name in ['start_date', 'end_date', 'modality', 'status', 'details']:
-            self.fields[field_name].required = False
+        for field_name in ['start_date', 'end_date', 'modality', 'details']:
+            if field_name in self.fields:
+                self.fields[field_name].required = False
+        if 'status' in self.fields:
+            self.fields['status'].required = False
 
 
 class CourseSoonForm(CourseForm):
+    class Meta(CourseForm.Meta):
+        fields = ['name', 'category', 'levels', 'summary', 'duration', 'price', 'start_date', 'end_date', 'modality', 'details']
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['status'].widget = forms.HiddenInput()
-        self.fields['status'].initial = 'bientot'
-        self.initial['status'] = 'bientot'
+        self.fields.pop('status', None)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.status = 'bientot'
+        if commit:
+            instance.save()
+            self.save_m2m()
+        return instance
 
 
 class ArticleForm(forms.ModelForm):
