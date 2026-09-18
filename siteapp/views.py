@@ -292,7 +292,7 @@ def admin_partners_new(request):
 def Admin_partners_edit(request, pk):
     partner = get_object_or_404(Partner, pk=pk)
     if request.method == 'POST':
-       form = PartnerForm(request.POST, instance=partner)
+        form = PartnerForm(request.POST, instance=partner)
         if not form.is_valid():
             messages.error(request, 'Veuillez corriger les erreurs dans le formulaire.')
         else:
